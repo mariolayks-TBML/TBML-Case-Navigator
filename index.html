@@ -1,5 +1,310 @@
 <!DOCTYPE html>
-<div id="snowflakes"></div>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎄 The TBML Christmas Gift Game 🎄</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --color-white: rgba(255, 255, 255, 1);
+            --color-red: #C41530;
+            --color-green: #1B6640;
+            --color-light-green: #2FA74F;
+            --color-gold: #FFD700;
+            --color-dark-red: #8B0A1E;
+        }
+        
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, var(--color-green) 0%, var(--color-red) 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        .snowflake {
+            position: fixed;
+            top: 0;
+            z-index: 1;
+            font-size: 2rem;
+            opacity: 0.7;
+            animation: snowfall linear infinite;
+        }
+        
+        @keyframes snowfall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: linear-gradient(90deg, var(--color-white) 0%, var(--color-red) 100%);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            border: 5px solid var(--color-gold);
+            position: relative;
+            z-index: 10;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .title {
+            font-size: 2.5rem;
+            color: var(--color-red);
+            margin: 0;
+            text-shadow: 2px 2px var(--color-green);
+            font-weight: bold;
+        }
+        
+        .subtitle {
+            color: var(--color-green);
+            font-size: 1.1rem;
+            margin: 10px 0 0 0;
+            font-style: italic;
+        }
+        
+        .game-section {
+            margin: 30px 0;
+            padding: 20px;
+            background: linear-gradient(to right, rgba(27, 102, 64, 0.1), rgba(196, 21, 48, 0.1));
+            border-left: 5px solid var(--color-red);
+            border-radius: 10px;
+        }
+        
+        .instruction-box {
+            background: rgba(196, 21, 48, 0.15);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            color: #333;
+            font-weight: 500;
+        }
+        
+        .gift-item {
+            background: linear-gradient(90deg, var(--color-light-green) 0%, var(--color-white) 100%);
+            border: 3px solid var(--color-red);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        
+        .gift-item:hover {
+            background: rgba(196, 21, 48, 0.05);
+            transform: translateX(5px);
+        }
+        
+        .gift-info {
+            flex: 1;
+        }
+        
+        .gift-name {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--color-red);
+            margin-bottom: 5px;
+        }
+        
+        .gift-market {
+            color: var(--color-green);
+            font-size: 0.95rem;
+            margin: 3px 0;
+        }
+        
+        .gift-hint {
+            color: #666;
+            font-size: 0.85rem;
+            margin-top: 5px;
+            font-style: italic;
+        }
+        
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        input[type="number"] {
+            flex: 1;
+            padding: 10px;
+            border: 2px solid var(--color-green);
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: bold;
+        }
+        
+        input[type="number"]:focus {
+            outline: none;
+            border-color: var(--color-red);
+            box-shadow: 0 0 10px rgba(196, 21, 48, 0.3);
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+        
+        .btn-submit {
+            background: var(--color-red);
+            color: var(--color-white);
+        }
+        
+        .btn-submit:hover {
+            background: var(--color-dark-red);
+            transform: scale(1.05);
+        }
+        
+        .btn-reset {
+            background: var(--color-green);
+            color: var(--color-white);
+            margin-left: 10px;
+        }
+        
+        .btn-reset:hover {
+            background: #154D32;
+            transform: scale(1.05);
+        }
+        
+        .results-section {
+            margin-top: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(27, 102, 64, 0.2), rgba(196, 21, 48, 0.2));
+            border-radius: 10px;
+            display: none;
+        }
+        
+        .results-section.show {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .result-card {
+            background: linear-gradient(90deg, var(--color-light-green) 0%, var(--color-white) 100%);
+            border: 2px solid var(--color-red);
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+        }
+        
+        .result-title {
+            font-weight: bold;
+            color: var(--color-red);
+            margin-bottom: 8px;
+        }
+        
+        .result-value {
+            font-size: 1.2rem;
+            color: var(--color-green);
+            font-weight: bold;
+        }
+        
+        .fraud-indicator {
+            background: rgba(196, 21, 48, 0.2);
+            border-left: 5px solid var(--color-red);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+            color: #333;
+        }
+        
+        .fraud-indicator h4 {
+            color: var(--color-red);
+            margin-top: 0;
+        }
+        
+        .flag-icon {
+            font-size: 2rem;
+            margin-right: 10px;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid var(--color-gold);
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .meva-quote {
+            background: rgba(27, 102, 64, 0.1);
+            border-left: 5px solid var(--color-green);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            font-style: italic;
+            color: #333;
+        }
+        
+        .control-panel {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        
+        .stat-display {
+            background: linear-gradient(90deg, var(--color-light-green) 0%, var(--color-white) 100%);
+            border: 2px solid var(--color-green);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .stat-box {
+            text-align: center;
+        }
+        
+        .stat-label {
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--color-red);
+        }
+    </style>
+</head>
+<body>
+    <!-- Snowflakes for festive effect -->
+    <div id="snowflakes"></div>
     
     <div class="container">
         <div class="header">
