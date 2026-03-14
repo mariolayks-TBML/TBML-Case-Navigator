@@ -3,562 +3,2197 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎄 The TBML Christmas Gift Game 🎄</title>
+    <title>TBML Case Navigator (112 cases)</title>
     <style>
         * {
+            margin: 0;
+            padding: 0;
             box-sizing: border-box;
         }
-        
-        :root {
-            --color-white: rgba(255, 255, 255, 1);
-            --color-red: #C41530;
-            --color-green: #1B6640;
-            --color-light-green: #2FA74F;
-            --color-gold: #FFD700;
-            --color-dark-red: #8B0A1E;
-        }
-        
+
         body {
-            margin: 0;
-            padding: 20px;
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, var(--color-green) 0%, var(--color-red) 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #0a0a0a;
+            color: #ffffff;
             min-height: 100vh;
-            color: #333;
+            padding: 20px;
         }
-        
-        .snowflake {
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: #1a1a1a;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            border-left: 6px solid #dc2626;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 16px;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #dc2626;
+            background: #2a2a2a;
+        }
+
+        .header h1 {
+            color: #ffffff;
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .header h1 span {
+            color: #dc2626;
+        }
+
+        .header p {
+            color: #9ca3af;
+            font-size: 14px;
+            margin-top: 8px;
+        }
+
+        .teaser-badge {
+            display: inline-block;
+            background: #dc2626;
+            color: #ffffff;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 12px;
+            border: 1px solid #ffffff;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: #1a1a1a;
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 4px solid #dc2626;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+
+        .stat-label {
+            color: #9ca3af;
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-value {
+            color: #ffffff;
+            font-size: 32px;
+            font-weight: 700;
+        }
+
+        .controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            background-color: #1a1a1a;
+            border: 2px solid #4b5563;
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: #dc2626;
+            box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.2);
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.75rem 1.25rem;
+            background-color: #1a1a1a;
+            border: 2px solid #4b5563;
+            border-radius: 8px;
+            color: #ffffff;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .filter-btn:hover {
+            border-color: #dc2626;
+            background-color: rgba(220, 38, 38, 0.1);
+        }
+
+        .filter-btn.active {
+            background-color: #dc2626;
+            border-color: #dc2626;
+            color: #ffffff;
+        }
+
+        .clear-filters {
+            background-color: #1a1a1a;
+            border: 2px solid #4b5563;
+            color: #ffffff;
+            padding: 0.75rem 1.25rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .clear-filters:hover {
+            border-color: #dc2626;
+            background-color: rgba(220, 38, 38, 0.1);
+        }
+
+        .cases-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+        }
+
+        .case-card {
+            background: #1a1a1a;
+            border-radius: 12px;
+            padding: 24px;
+            border-left: 6px solid #dc2626;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .case-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(220, 38, 38, 0.3);
+        }
+
+        .case-number {
+            color: #dc2626;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .case-title {
+            color: #ffffff;
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+
+        .case-summary {
+            color: #9ca3af;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        .case-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tag {
+            background: #2a2a2a;
+            color: #dc2626;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+            border: 1px solid #dc2626;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            color: #9ca3af;
+            font-size: 1.1rem;
+            grid-column: 1 / -1;
+        }
+
+        .modal {
+            display: none;
             position: fixed;
             top: 0;
-            z-index: 1;
-            font-size: 2rem;
-            opacity: 0.7;
-            animation: snowfall linear infinite;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 1000;
+            padding: 20px;
+            overflow-y: auto;
         }
-        
-        @keyframes snowfall {
-            to {
-                transform: translateY(100vh) rotate(360deg);
-            }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        
-        .container {
+
+        .modal-content {
+            background: #1a1a1a;
+            border-radius: 12px;
+            padding: 32px;
             max-width: 900px;
-            margin: 0 auto;
-            background: linear-gradient(90deg, var(--color-white) 0%, var(--color-red) 100%);
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-            border: 5px solid var(--color-gold);
-            position: relative;
-            z-index: 10;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            border-left: 8px solid #dc2626;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
-        
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        
-        .title {
-            font-size: 2.5rem;
-            color: var(--color-red);
-            margin: 0;
-            text-shadow: 2px 2px var(--color-green);
-            font-weight: bold;
-        }
-        
-        .subtitle {
-            color: var(--color-green);
-            font-size: 1.1rem;
-            margin: 10px 0 0 0;
-            font-style: italic;
-        }
-        
-        .game-section {
-            margin: 30px 0;
-            padding: 20px;
-            background: linear-gradient(to right, rgba(27, 102, 64, 0.1), rgba(196, 21, 48, 0.1));
-            border-left: 5px solid var(--color-red);
-            border-radius: 10px;
-        }
-        
-        .instruction-box {
-            background: rgba(196, 21, 48, 0.15);
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            color: #333;
-            font-weight: 500;
-        }
-        
-        .gift-item {
-            background: linear-gradient(90deg, var(--color-light-green) 0%, var(--color-white) 100%);
-            border: 3px solid var(--color-red);
-            padding: 15px;
-            margin: 15px 0;
-            border-radius: 8px;
+
+        .modal-header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            transition: all 0.3s ease;
+            align-items: start;
+            margin-bottom: 24px;
         }
-        
-        .gift-item:hover {
-            background: rgba(196, 21, 48, 0.05);
-            transform: translateX(5px);
-        }
-        
-        .gift-info {
+
+        .modal-title {
+            color: #ffffff;
+            font-size: 24px;
+            font-weight: 700;
             flex: 1;
+            padding-right: 20px;
         }
-        
-        .gift-name {
-            font-size: 1.3rem;
-            font-weight: bold;
-            color: var(--color-red);
-            margin-bottom: 5px;
+
+        .modal-title span {
+            color: #dc2626;
         }
-        
-        .gift-market {
-            color: var(--color-green);
-            font-size: 0.95rem;
-            margin: 3px 0;
-        }
-        
-        .gift-hint {
-            color: #666;
-            font-size: 0.85rem;
-            margin-top: 5px;
-            font-style: italic;
-        }
-        
-        .input-group {
-            display: flex;
-            gap: 10px;
-            margin-top: 10px;
-        }
-        
-        input[type="number"] {
-            flex: 1;
-            padding: 10px;
-            border: 2px solid var(--color-green);
-            border-radius: 5px;
-            font-size: 1rem;
-            font-weight: bold;
-        }
-        
-        input[type="number"]:focus {
-            outline: none;
-            border-color: var(--color-red);
-            box-shadow: 0 0 10px rgba(196, 21, 48, 0.3);
-        }
-        
-        .btn {
-            padding: 12px 24px;
+
+        .close-btn {
+            background: none;
             border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: bold;
+            font-size: 32px;
+            color: #9ca3af;
             cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-        }
-        
-        .btn-submit {
-            background: var(--color-red);
-            color: var(--color-white);
-        }
-        
-        .btn-submit:hover {
-            background: var(--color-dark-red);
-            transform: scale(1.05);
-        }
-        
-        .btn-reset {
-            background: var(--color-green);
-            color: var(--color-white);
-            margin-left: 10px;
-        }
-        
-        .btn-reset:hover {
-            background: #154D32;
-            transform: scale(1.05);
-        }
-        
-        .results-section {
-            margin-top: 30px;
-            padding: 20px;
-            background: linear-gradient(135deg, rgba(27, 102, 64, 0.2), rgba(196, 21, 48, 0.2));
-            border-radius: 10px;
-            display: none;
-        }
-        
-        .results-section.show {
-            display: block;
-            animation: slideIn 0.5s ease;
-        }
-        
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .result-card {
-            background: linear-gradient(90deg, var(--color-light-green) 0%, var(--color-white) 100%);
-            border: 2px solid var(--color-red);
-            padding: 15px;
-            margin: 10px 0;
-            border-radius: 8px;
-        }
-        
-        .result-title {
-            font-weight: bold;
-            color: var(--color-red);
-            margin-bottom: 8px;
-        }
-        
-        .result-value {
-            font-size: 1.2rem;
-            color: var(--color-green);
-            font-weight: bold;
-        }
-        
-        .fraud-indicator {
-            background: rgba(196, 21, 48, 0.2);
-            border-left: 5px solid var(--color-red);
-            padding: 15px;
-            margin: 15px 0;
-            border-radius: 5px;
-            color: #333;
-        }
-        
-        .fraud-indicator h4 {
-            color: var(--color-red);
-            margin-top: 0;
-        }
-        
-        .flag-icon {
-            font-size: 2rem;
-            margin-right: 10px;
-        }
-        
-        .footer {
-            text-align: center;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 2px solid var(--color-gold);
-            font-size: 0.9rem;
-            color: #666;
-        }
-        
-        .meva-quote {
-            background: rgba(27, 102, 64, 0.1);
-            border-left: 5px solid var(--color-green);
-            padding: 15px;
-            margin: 20px 0;
-            border-radius: 5px;
-            font-style: italic;
-            color: #333;
-        }
-        
-        .control-panel {
+            padding: 0;
+            width: 32px;
+            height: 32px;
             display: flex;
-            gap: 10px;
+            align-items: center;
             justify-content: center;
-            margin: 20px 0;
+            transition: color 0.2s;
         }
-        
-        .stat-display {
-            background: linear-gradient(90deg, var(--color-light-green) 0%, var(--color-white) 100%);
-            border: 2px solid var(--color-green);
-            padding: 15px;
-            border-radius: 8px;
-            margin: 10px 0;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
+
+        .close-btn:hover {
+            color: #dc2626;
         }
-        
-        .stat-box {
-            text-align: center;
+
+        .modal-section {
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #2a2a2a;
         }
-        
-        .stat-label {
-            font-size: 0.85rem;
-            color: #666;
-            margin-bottom: 5px;
+
+        .modal-section:last-child {
+            border-bottom: none;
         }
-        
-        .stat-number {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: var(--color-red);
+
+        .modal-section h3 {
+            color: #dc2626;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .modal-section p {
+            color: #d1d5db;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .modal-section ul {
+            color: #d1d5db;
+            font-size: 14px;
+            line-height: 1.8;
+            padding-left: 20px;
+        }
+
+        .modal-section li {
+            margin-bottom: 6px;
+        }
+
+        .flag-badge {
+            display: inline-block;
+            background: #2a2a2a;
+            color: #dc2626;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-right: 6px;
+            margin-bottom: 6px;
+            border: 1px solid #dc2626;
+        }
+
+        @media (max-width: 768px) {
+            .cases-grid {
+                grid-template-columns: 1fr;
+            }
+            .header h1 {
+                font-size: 22px;
+            }
+            .logo {
+                width: 60px;
+                height: 60px;
+            }
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .search-box {
+                width: 100%;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Snowflakes for festive effect -->
-    <div id="snowflakes"></div>
-    
     <div class="container">
         <div class="header">
-            <h1 class="title">🎄 TBML CHRISTMAS GIFT VALUATION CHALLENGE 🎁</h1></p>
-        
-        </div>
-        
-        <div class="game-section">
-            <div class="instruction-box">
-                <h2>🎯 The Game</h2>
-                <p><strong>You are Santa's Compliance Officer.</strong> Below are 5 "Christmas Gift" imports to the North Pole from various countries. Your job: assign <strong>realistic invoice prices</strong> for each gift.</p>
-                <p>⚠️ But here's the twist: <strong>Some traders DELIBERATELY misprice goods to launder cash.</strong></p>
-                <p>Your invoice valuations are judged against <strong>market reality</strong>. Huge deviations trigger red flags! 🚩</p>
-            </div>
-            
-            <div id="gifts-container"></div>
-            
-            <div class="control-panel">
-                <button class="btn btn-submit" onclick="calculateResults()">SUBMIT VALUES & SHOW RED FLAGS 🚨</button>
-                <button class="btn btn-reset" onclick="resetGame()">START OVER</button>
+            <div class="header-content">
+                <img src="https://agi-prod-file-upload-public-main-use1.s3.amazonaws.com/2b7fdd28-1e73-490f-999f-85128976eb85" alt="Logo" class="logo" onerror="this.src='https://via.placeholder.com/80/1a1a1a/dc2626?text=TBML'">
+                <div>
+                    <h1>TBML <span>Case Navigator</span></h1>
+                    <p>Interactive database of 112 trade-based money laundering cases</p>
+                    <span class="teaser-badge">112 Cases | 20+ Typologies | 50+ Jurisdictions</span>
+                </div>
             </div>
         </div>
-        
-        <div id="results" class="results-section">
-            <h2 style="color: var(--color-red); text-align: center;">📊 COMPLIANCE AUDIT RESULTS</h2>
-            
-            <div id="results-content"></div>
+
+        <div class="stats-grid" id="statsGrid">
+            <!-- filled by JS -->
         </div>
-        
-        <div class="footer">
-            <p>🎅 <strong>Meva Private Christmas Edition by Dr Mariola Marzouk</strong> | Trade-Based Money Laundering Detection Game</p>
-            <p>Data sourced from FATF (2006-2023), FinCEN advisories, Zdanowicz research, and actual TBML case studies.</p>
+
+        <div class="controls">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Search cases by keyword...">
+            </div>
+            <div class="filter-group" id="typologyFilters">
+                <!-- filled by JS -->
+            </div>
+            <button class="clear-filters" id="clearFilters">Clear Filters</button>
+        </div>
+
+        <div class="cases-grid" id="casesGrid"></div>
+        <div class="no-results" id="noResults" style="display: none;">No cases match your criteria.</div>
+    </div>
+
+    <div class="modal" id="caseModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title" id="modalTitle"></div>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <div id="modalBody"></div>
         </div>
     </div>
 
     <script>
-        // Gift data with real-world TBML typologies
-        const gifts = [
+        // ======================== FULL 112 CASES ========================
+        const cases = [
             {
-                id: 1,
-                name: "🎁 Decorative Gold Watches",
-                emoji: "⌚",
-                country: "China",
-                quantity: 500,
-                realMarketPrice: 12.50, // per unit USD
-                highRiskScenario: "UNDERVALUED EXPORT - Seller invoices at $0.50 each, pockets $6,000 in laundered cash elsewhere",
-                lowRiskScenario: "Normal market pricing, legitimate Xmas decoration import"
+                number: "Case 1",
+                title: "Rolling-Window Cash and Cross-Border Red-Flag Profiling",
+                summary: "Bank aggregates transactions over short rolling periods to spot abnormal patterns: cash in/cheques out, domestic cash/offshore ATM withdrawals, loans rapidly repaid in cash, payments to charities/gambling sites/high-risk countries, and U-turn flows.",
+                typologies: ["Structuring", "Layering", "Profile Inconsistency", "U-Turn Flows"],
+                countries: ["Australia"],
+                commodities: ["Various"],
+                year: 2020,
+                description: "This is a pattern-of-activity review methodology rather than a single criminal case. It describes how banks can detect laundering by aggregating transactions per counterparty over short windows to expose structuring, layering, and profile inconsistencies—cash being broken up, moved rapidly offshore, or cycled through accounts with no economic rationale.",
+                detection: "Rolling-window aggregation (e.g., 14 days) per counterparty; counting frequency and total value of flows to expose patterns invisible in single transactions.",
+                outcome: "Methodology for improved monitoring.",
+                lessons: "Short-period aggregation reveals structured payments, circular flows, and counterparties inconsistent with customer profile.",
+                redFlags: [16, 17, 19, 20, 27]
             },
             {
-                id: 2,
-                name: "🧥 Luxury Winter Scarves",
-                emoji: "🧣",
-                country: "Italy",
-                quantity: 200,
-                realMarketPrice: 45.00, // per unit USD
-                highRiskScenario: "OVERVALUED IMPORT - Invoiced at $450/each (10x actual cost), money ends up in criminal proceeds",
-                lowRiskScenario: "Legitimate high-end fashion pricing for premium Italian goods"
+                number: "Case 2",
+                title: "U‑Turn Accounts and Cash‑Bought Assets",
+                summary: "Bidirectional flows between same parties expose fake roles; cash used to buy assets (cars) via front men.",
+                typologies: ["U-Turn Flows", "Front Men", "Asset Purchases"],
+                countries: ["Various"],
+                commodities: ["Vehicles"],
+                year: 2019,
+                description: "Money flows out to a party and then returns from that same party—a U-turn—when normal accounting expects one-way flows. Loan accounts show odd refunds from and back to related accounts. Cars bought with dirty cash from complicit dealers, then sold via bank transfer or parked in front man's name.",
+                detection: "Analyse counterparty relationships: if Party X is both customer and supplier with bidirectional cash, investigate. Trace loan refund paths.",
+                outcome: "Exposes laundering pipes.",
+                lessons: "Counterparties who are simultaneously customer and supplier, or loan accounts with odd refunds, indicate laundering.",
+                redFlags: [16, 20, 22]
             },
             {
-                id: 3,
-                name: "💎 Precious Metal Ingots (Gold)",
-                emoji: "🏆",
-                country: "UAE/Dubai",
-                quantity: 50,
-                realMarketPrice: 2000.00, // per unit (spot + 5% markup)
-                highRiskScenario: "UNDERVALUED EXPORT - Priced at $100/unit to hide $95,000 outflow, matches Palermo Mafia case typology",
-                lowRiskScenario: "Standard commodity import at current spot price"
+                number: "Case 3",
+                title: "Reinvestment of Drug Cash into Drug Business",
+                summary: "Cocaine sold in Europe; profits used to buy second shipment in South America. If seized, proving link to first shipment is hard.",
+                typologies: ["Drug Trafficking", "Reinvestment"],
+                countries: ["Europe", "South America"],
+                commodities: ["Cocaine"],
+                year: 2018,
+                description: "Group sells cocaine in Europe, uses profits to buy a second shipment in South America. If the second shipment is seized, law enforcement struggles to prove it was funded by the first shipment's profits—the original proceeds are 'hidden' in new stock.",
+                detection: "Intelligence linking shipments; financial investigation tracing funds.",
+                outcome: "Seizure of second shipment but original profits hidden.",
+                lessons: "Profits reinvested in same illicit activity become harder to trace.",
+                redFlags: []
             },
             {
-                id: 4,
-                name: "🚜 Industrial Smelting Equipment",
-                emoji: "⚙️",
-                country: "Germany",
-                quantity: 5,
-                realMarketPrice: 8500.00, // per unit USD
-                highRiskScenario: "OVERVALUED IMPORT - Invoiced at $85,000/unit (10x cost), creates fake expense for money laundering",
-                lowRiskScenario: "Normal German engineering equipment pricing"
+                number: "Case 4",
+                title: "Third‑Party Cash Deposits into Legitimate Exporter",
+                summary: "Dutch trafficker's girlfriend carries cocaine cash to Duplo, a potato/fruit exporter, as payment for shipments to trafficker's African companies.",
+                typologies: ["Third-Party Payments", "Trade-Based Money Laundering", "Hawala"],
+                countries: ["Netherlands", "Africa"],
+                commodities: ["Potatoes", "Fruit"],
+                year: 2017,
+                description: "Duplo exports real goods at real prices; Eagle and Future (trafficker's African companies) sell them and receive local currency. Euro drug cash converted into apparently legitimate African business revenue. Duplo manager accepts huge cash deposits under the excuse 'Africa has poor banking', ignoring that genuine African clients pay by bank transfer.",
+                detection: "Behavioural red flag: cash payments from unrelated third parties, inconsistent with normal client behaviour (bank transfers).",
+                outcome: "Investigation likely; case illustrates method.",
+                lessons: "Cash payments from unrelated parties, even for real goods, may conceal drug money conversion.",
+                redFlags: [16, 22]
             },
             {
-                id: 5,
-                name: "🌟 Unspecified 'Miscellaneous Electronics'",
-                emoji: "📦",
-                country: "Hong Kong",
-                quantity: 1000,
-                realMarketPrice: 3.50, // per unit USD
-                highRiskScenario: "VAGUE DESCRIPTION + MISPRICE - Classic shell company tactic: generic goods, impossible to verify",
-                lowRiskScenario: "Legitimate bulk electronics import at competitive Asian pricing"
+                number: "Case 5",
+                title: "Co‑opting Unsuspecting Traders",
+                summary: "Sierra Leone trafficker builds trust with Dutch agricultural machinery trader, pays fair prices in cash, then asks to 'borrow' company account to pay Vietnamese rice supplier €200,000—funded entirely with drug cash.",
+                typologies: ["Third-Party Payments", "Trade-Based Money Laundering", "Hawala"],
+                countries: ["Netherlands", "Sierra Leone", "Vietnam"],
+                commodities: ["Agricultural machinery", "Rice"],
+                year: 2016,
+                description: "Dutch company unintentionally acts as payment front: it banks cocaine proceeds and wires them on as if settling a normal trade bill, giving trafficker clean trade documentation for what may be a cocaine shipment or mixed cargo. No under/over-invoicing—camouflage is behavioural and relational.",
+                detection: "Unusual payment pattern: trader not in normal business line paying large sums to unrelated supplier; cash funding.",
+                outcome: "Unsuspecting trader used as conduit.",
+                lessons: "Lazy 'only invoice-manipulation is TBML' thinking is dangerous—behavioural camouflage works.",
+                redFlags: [16, 40]
+            },
+            {
+                number: "Case 6",
+                title: "Collusive Trade Laundering: Kudos",
+                summary: "Curacao organiser has Euros from cocaine sales in Netherlands. Two Dutch brothers offer 5% service to convert and repatriate value.",
+                typologies: ["Trade-Based Money Laundering", "Collusive Trade", "Value Transfer"],
+                countries: ["Netherlands", "Curacao"],
+                commodities: ["Wholesale goods"],
+                year: 2015,
+                description: "One brother in Netherlands accepts bulk cash, buys wholesale goods at normal prices from collusive supplier; goods shipped to Curacao company Kudos, sold on open market, proceeds withdrawn and handed to trafficker in local currency. Over ~3 years Kudos moves ~€2.5M—a purpose-built laundering machine fusing value transfer, currency conversion, and trade cover.",
+                detection: "Suspicious activity reports; pattern of cash deposits followed by wire transfers for goods; cross-jurisdictional analysis.",
+                outcome: "€2.5M laundered over three years.",
+                lessons: "Collusive import-export businesses can launder large sums through normal-priced goods.",
+                redFlags: [16, 31, 33]
+            },
+            {
+                number: "Case 7",
+                title: "Under‑Invoiced Diamond Exports",
+                summary: "Criminals move €5M by selling diamonds to themselves at fake low export price, then selling at full price in destination country.",
+                typologies: ["Under-invoicing", "Trade-Based Money Laundering"],
+                countries: ["Various"],
+                commodities: ["Diamonds"],
+                year: 2014,
+                description: "Group Alpha buys 500 diamond rings at €10,000 each (€5M real value). Alpha 'sells' rings to Group Beta for €10 each—on paper almost no value moved. Beta then sells rings in open market for ~€5M, receiving illicit funds in clean form.",
+                detection: "Customs value reconciliation; price benchmarking against market norms.",
+                outcome: "€5M laundered.",
+                lessons: "Under-invoicing of high-value goods moves value invisibly.",
+                redFlags: [42, 62]
+            },
+            {
+                number: "Case 8",
+                title: "Half‑Priced Computer Exports to Brazil",
+                summary: "US exporter sends computers worth $1M to Brazil; Brazilian importer alters customs paperwork to $500,000, so only $500,000 paid officially. Missing $500,000 is off-books transfer into Brazil.",
+                typologies: ["Under-invoicing", "Trade-Based Money Laundering"],
+                countries: ["USA", "Brazil"],
+                commodities: ["Computers"],
+                year: 2013,
+                description: "Exporter and importer collude to lie about shipment value. Mispricing rather than cash smuggling moves value into Brazil.",
+                detection: "Customs data comparison between export and import declarations.",
+                outcome: "$500,000 moved off-books.",
+                lessons: "Under-invoicing allows value transfer without physical cash movement.",
+                redFlags: [42, 62]
+            },
+            {
+                number: "Case 9",
+                title: "Routing Trade via Non‑TTU Country to Hide Mispricing",
+                summary: "Goods move from Zambia (outside TTU) to USA to Brazil, so authorities cannot see whether values manipulated in/out of Zambia.",
+                typologies: ["Under-invoicing", "Jurisdictional Exploitation"],
+                countries: ["Zambia", "USA", "Brazil"],
+                commodities: ["Various"],
+                year: 2012,
+                description: "On paper, USA exports $1M to Brazil; Brazil customs shows only $500,000. If both countries in TTU, mismatch visible. But goods first move from Zambia (non-TTU) to USA, then to Brazil—authorities cannot compare values.",
+                detection: "Need data from non-TTU countries; difficult.",
+                outcome: "Mispricing hidden.",
+                lessons: "Routing through non-TTU countries defeats cross-border trade data comparison.",
+                redFlags: [54, 56]
+            },
+            {
+                number: "Case 10",
+                title: "Inflated Electronics Exports to Steal VAT",
+                summary: "Company Alpha sells electronics to shell Beta at over-inflated prices to claim €4M VAT refund. Beta is US shell with Latvian account sending €30M+ to Alpha; real end-buyer is Bulgarian firm.",
+                typologies: ["Over-invoicing", "VAT Fraud", "Shell Companies"],
+                countries: ["USA", "Latvia", "Bulgaria"],
+                commodities: ["Electronics"],
+                year: 2011,
+                description: "Beta (US shell, Latvian bank) pays Alpha inflated prices. Alpha claims VAT refund on exports. Investigators later discover Beta actually owns Alpha and is involved in other illicit schemes.",
+                detection: "Customs valuation review; beneficial ownership tracing revealing common control.",
+                outcome: "€4M VAT fraud.",
+                lessons: "Over-invoicing can serve VAT fraud; related parties may hide behind shell structures.",
+                redFlags: [1, 42, 61]
+            },
+            {
+                number: "Case 11",
+                title: "Leather Exports and a 'Lost' Passport",
+                summary: "Company Alpha exports semi-finished leather worth €5.9M to Belize shell Nizi, which pays €4.3M from Latvian account. Nizi's account controlled under Ukrainian passport reported lost; real goods end up with Italian Company Delta.",
+                typologies: ["Shell Companies", "Documentation Fraud", "Trade-Based Money Laundering"],
+                countries: ["Belize", "Latvia", "Ukraine", "Italy"],
+                commodities: ["Leather"],
+                year: 2010,
+                description: "Alpha quickly cashes funds claiming to buy agricultural products. Nizi's control via forged ID; Delta receives goods—classic shell-plus-forged-ID TBML.",
+                detection: "Passport lost/stolen check; tracing ultimate goods destination.",
+                outcome: "€4.3M moved; investigation.",
+                lessons: "Shells controlled with forged IDs are pure TBML conduits.",
+                redFlags: [1, 44, 59]
+            },
+            {
+                number: "Case 12",
+                title: "Phantom Imports via UK Shells",
+                summary: "Company Alpha tells bank it imported £2.3M goods from UK shell Rania (purportedly from Belarus producer Beta), but wires £14.3M to Rania's Estonian account, then passed to UK shell Sonic. Customs in both Belarus and Alpha's country have zero record of trade.",
+                typologies: ["Phantom Shipping", "Shell Companies"],
+                countries: ["UK", "Estonia", "Belarus", "Ukraine"],
+                commodities: ["None"],
+                year: 2009,
+                description: "Pure paper import used to justify large cross-border payments with no real goods. Rania and Sonic controlled by Ukrainian nationals.",
+                detection: "Customs verification; no goods ever entered.",
+                outcome: "£14.3M moved for no goods.",
+                lessons: "Phantom imports use fake documentation to justify wire transfers.",
+                redFlags: [44, 47]
+            },
+            {
+                number: "Case 13",
+                title: "Fake Step‑Ladder Imports and Bogus Loan Repayment",
+                summary: "Belarus Company Alpha pays ~$1M to UK company with Latvian account for step-ladders imported from Russia—customs confirm no goods entered. Alpha also claims to repay loan from Russian Beta for goods from Cucu—no evidence loan or goods existed.",
+                typologies: ["Phantom Shipping", "Shell Companies"],
+                countries: ["Belarus", "UK", "Latvia", "Russia"],
+                commodities: ["Step-ladders (fictitious)"],
+                year: 2008,
+                description: "Alpha's domestic suppliers are brass-plate firms. Whole structure about moving money, not trading ladders.",
+                detection: "Customs verification; no import records.",
+                outcome: "$1M moved fraudulently.",
+                lessons: "Loan repayment and import claims with no underlying goods are money-moving devices.",
+                redFlags: [44, 47]
+            },
+            {
+                number: "Case 14",
+                title: "Kazakhstan Goods That Never Move",
+                summary: "Ukrainian Company Alpha pretends to ship goods from Kazakhstan to offshore non-resident companies holding Russian bank accounts with illicit funds. Russian accounts send rubles to Alpha, Alpha converts to USD and wires to EU companies (Lithuania, Latvia, Estonia, Cyprus, Switzerland). Goods never left Kazakhstan.",
+                typologies: ["Phantom Shipping", "Value Transfer"],
+                countries: ["Ukraine", "Kazakhstan", "Russia", "Lithuania", "Latvia", "Estonia", "Cyprus", "Switzerland"],
+                commodities: ["Various (fictitious)"],
+                year: 2007,
+                description: "Total about $756.4M pushed out of Russia through these phantom trades.",
+                detection: "Customs verification; goods never moved.",
+                outcome: "$756.4M laundered.",
+                lessons: "Phantom trades can move billions across borders.",
+                redFlags: [44, 47]
+            },
+            {
+                number: "Case 15",
+                title: "Wachovia's Shell‑Company Payment Conveyor",
+                summary: "Wachovia London processes ~$500M through correspondent accounts for 20+ UK/NZ shells with Latvian accounts, all linked, sourcing funds from FSU states. Shells share formation agents, push round-number transfers (100-300k chunks), pay mainly Chinese and US auto-leasing companies for 'imports' into FSU.",
+                typologies: ["Shell Companies", "Correspondent Banking Abuse"],
+                countries: ["UK", "New Zealand", "Latvia", "USA", "China", "FSU"],
+                commodities: ["Vehicles"],
+                year: 2006,
+                description: "Platform becomes TBML payment highway.",
+                detection: "Pattern analysis: same formation agents, round-number transfers, unusual correspondent routing.",
+                outcome: "$500M processed; later enforcement.",
+                lessons: "Correspondent banking can be abused by shell networks if due diligence weak.",
+                redFlags: [1, 2, 10, 21]
+            },
+            {
+                number: "Case 16",
+                title: "Tormex — Universal Payer for Trade and Laundering",
+                summary: "Tormex, a New Zealand shell with Latvian account, sits in payment platform: over a year sends ~$45M to international suppliers, including $13M to US car dealers and ~$10M to 60+ Chinese suppliers.",
+                typologies: ["Shell Companies", "Trade-Based Money Laundering", "Layering"],
+                countries: ["New Zealand", "Latvia", "USA", "China", "FSU"],
+                commodities: ["Cars", "Machinery", "Textiles"],
+                year: 2005,
+                description: "Acts as universal payment vehicle: splits large payables into 0.1-0.5M wires, pays genuine-looking exporters for FSU-linked shells, mixes legitimate trade with cartel money and tax-evasion funds.",
+                detection: "Transaction pattern analysis: many small wires, mixing of flows, shells as payers.",
+                outcome: "$45M laundered.",
+                lessons: "Shells can act as 'universal payers' commingling legitimate and illicit funds.",
+                redFlags: [1, 10, 21]
+            },
+            {
+                number: "Case 17",
+                title: "Five Shells Churning $160M for Tax/VAT Fraud",
+                summary: "Five shell companies push ~$160M through Tormex in one year, with hundreds of same-day in-and-out wires leaving Tormex's balance oscillating between -$3M and +$3M.",
+                typologies: ["Shell Companies", "VAT Fraud", "Layering"],
+                countries: ["FSU", "New Zealand", "Latvia"],
+                commodities: ["Various"],
+                year: 2004,
+                description: "Funds sent under foreign-trade contracts later quietly returned to originators via other platform shells—contracts are fakes used to create tax/VAT advantages. Real senders in FSU are straw-man companies with no operations.",
+                detection: "Same-day in-out flows; round-tripping of funds; no economic rationale.",
+                outcome: "$160M churned; tax fraud.",
+                lessons: "Same-day in-out wires with no business purpose indicate layering and fake trade.",
+                redFlags: [1, 10, 19, 20]
+            },
+            {
+                number: "Case 18",
+                title: "Nomirex — Small Trade Front, Massive Inbound Flows",
+                summary: "Nomirex pays only $3.3M to suppliers in China/USA, but receives ~$28M from 13 UK/NZ/BVI shells at one Estonian bank, plus nearly $300M more from Russian shells and a small St Petersburg construction company.",
+                typologies: ["Shell Companies", "Trade-Based Money Laundering"],
+                countries: ["Estonia", "UK", "NZ", "BVI", "Russia"],
+                commodities: ["Various"],
+                year: 2003,
+                description: "Nomirex is less a trader, more a collection and redistribution hub where enormous criminal/tax-fraud proceeds are re-routed under thin trade cover.",
+                detection: "Huge mismatch between inbound funds and payments to real suppliers.",
+                outcome: "$328M laundered.",
+                lessons: "Massive inbound flows to a company with minimal genuine trade支出 is a red flag.",
+                redFlags: [1, 10, 21]
+            },
+            {
+                number: "Case 19",
+                title: "AsiaUniversalBank and Ukio — State‑Scale Shell Platforms",
+                summary: "Kyrgyzstan's AsiaUniversalBank runs Tormex-style platform shuffling ~$1.2B between five shells (2008-2010), moving at least $240M illegally out of Kyrgyzstan. Lithuania's Ukio Bank holds ~$1.7B belonging to ~460 shells on just two correspondent accounts.",
+                typologies: ["Shell Companies", "Correspondent Banking Abuse"],
+                countries: ["Kyrgyzstan", "Lithuania"],
+                commodities: ["Various"],
+                year: 2008,
+                description: "Both banks become industrial-scale TBML and illicit-flow infrastructure, not mere bystanders. Many shells tied to serious tax fraud, corruption, organised crime.",
+                detection: "Concentration of shell accounts; unusual correspondent activity; later investigations.",
+                outcome: "$1.2B and $1.7B laundered.",
+                lessons: "Banks hosting hundreds of shells on correspondent accounts are platforms for TBML.",
+                redFlags: [1, 10, 57]
+            },
+            {
+                number: "Case 20",
+                title: "Used‑Clothing Charities as Laundering Machine",
+                summary: "Criminals hide dirty money inside used-textile and 'charity' ecosystem: buy second-hand clothes with illicit cash, over-inflate value through related companies, blur line between donations and profit.",
+                typologies: ["Charity Fraud", "Transfer Pricing", "Trade-Based Money Laundering"],
+                countries: ["USA", "Cayman Islands"],
+                commodities: ["Used clothing", "Furniture"],
+                year: 2010,
+                description: "Control sham charities that claim to fund good causes but shuffle money through chains of companies. Some entities never register as charities; volunteers leave no payroll trail. Cult-like structures force members to recycle earnings. By moving clothes through multiple related entities and using transfer pricing, they artificially increase paper value and convert illicit cash into legitimate revenue.",
+                detection: "Financial reporting messy; lack of charity registration; cult-like structures; related-party transactions.",
+                outcome: "Systemic laundering; investigations.",
+                lessons: "Charity and second-hand trade sectors vulnerable to TBML due to cash intensity and complex supply chains.",
+                redFlags: [1, 10, 31]
+            },
+            {
+                number: "Case 21",
+                title: "Drug Cash Turned into 'Artisanal' Colombian Gold",
+                summary: "Drug traffickers buy gold abroad with cocaine money, ship it into Colombia, relabel as locally mined artisanal gold, then re-export clean to US.",
+                typologies: ["Trade-Based Money Laundering", "Gold Laundering"],
+                countries: ["Colombia", "USA"],
+                commodities: ["Gold"],
+                year: 2012,
+                description: "Complicit Medellín gold traders fabricate provenance documents, allowing gold to be sold in US retail market as legitimate Colombian product while cash trail disappears.",
+                detection: "Provenance verification; tracking gold origin; intelligence.",
+                outcome: "Gold laundered; investigations.",
+                lessons: "Fabricated provenance turns illicit gold into 'legitimate' product.",
+                redFlags: [44, 54]
+            },
+            {
+                number: "Case 22",
+                title: "Travel Agency Mules and Fake Export Invoices",
+                summary: "Indian syndicate head runs travel agency, uses relatives as gold mules flying 200+ times between India and UAE over six years. Gold 'officially' exported using false invoices from travel agency.",
+                typologies: ["Gold Smuggling", "Fake Invoices"],
+                countries: ["India", "UAE"],
+                commodities: ["Gold"],
+                year: 2010,
+                description: "What looks like normal, documented cross-border trade masks repeated movements of high-value metal tied to illicit funds.",
+                detection: "Travel patterns; customs checks; invoice verification.",
+                outcome: "Gold smuggled; investigations.",
+                lessons: "Travel agencies can provide fake invoices to cover gold movements.",
+                redFlags: [44]
+            },
+            {
+                number: "Case 23",
+                title: "High‑Risk Sudanese Gold and Kaloti Refinery",
+                summary: "Most Sudanese gold (77% of 57 tonnes in 2012) exported to Dubai, largely to Kaloti, UAE's biggest gold refiner (€12B trade/refining 2016). Despite internal risk flags and Ernst & Young report highlighting governance failures, Kaloti accepts large volumes of high-risk gold from Sudan/Morocco, buys billions from anonymous 'call customers' without proper due diligence.",
+                typologies: ["Gold Laundering", "Conflict Minerals", "Due Diligence Failure"],
+                countries: ["Sudan", "UAE", "Uganda", "Rwanda", "Burundi", "Kenya", "Morocco"],
+                commodities: ["Gold"],
+                year: 2012,
+                description: "Gold misclassified as scrap, coated to dodge source-country export rules, routed through Uganda, Rwanda, Burundi, Kenya whose reported exports exceed production. Dubai's dependence on conflict/anomaly African gold rises from 17.7% to 31% of supply 2012-2016.",
+                detection: "Ernst & Young report; trade data analysis; risk flags ignored.",
+                outcome: "Governance failures; reputational damage.",
+                lessons: "Refiners accepting gold from high-risk sources without due diligence enable TBML.",
+                redFlags: [44, 54]
+            },
+            {
+                number: "Case 24",
+                title: "HSBC's Swiss Private Bank",
+                summary: "HSBC Swiss private bank catered to arms dealers, conflict-diamond traders, clients from developing countries, helping them park and move illicit wealth behind respectable banking.",
+                typologies: ["Private Banking Abuse", "Offshore Structures", "Conflict Diamonds"],
+                countries: ["Switzerland", "Guinea", "Angola", "DRC"],
+                commodities: ["Diamonds"],
+                year: 2006,
+                description: "Clients included Katex Mines Guinee (linked to arms smuggling) and over 2,000 diamond dealers, some importing conflict diamonds from Angola/DRC. Staff marketed tax-evasion structures, mis-labelled powerful women as 'housewives', known arms traffickers as 'businessmen', assisted in setting up offshore companies. AML systems failed to flag patterns.",
+                detection: "Journalistic investigation; leaked data.",
+                outcome: "Reputational damage; fines.",
+                lessons: "Private banks can be conduits for illicit wealth if AML is weak.",
+                redFlags: [12, 44]
+            },
+            {
+                number: "Case 25",
+                title: "PEP Insider Privatisation Deal",
+                summary: "Two senior PEPs collude: Individual A leaks confidential privatisation plans; Suspect B secretly arranges associate to buy into Company X, which wins tender due to B's abuse of position.",
+                typologies: ["Corruption", "PEP Abuse", "Trade-Based Money Laundering"],
+                countries: ["Various"],
+                commodities: ["None"],
+                year: 2010,
+                description: "Company X's profits washed through associate's accounts, passed to B and family. B's wife buys house; part kicked back to A for insider tip.",
+                detection: "Investigation into tender process; financial tracing.",
+                outcome: "Corruption and laundering.",
+                lessons: "PEPs exploiting inside knowledge can launder through corporate structures.",
+                redFlags: [12]
+            },
+            {
+                number: "Case 26",
+                title: "HSBC Mexico and US-Mexico Drug Flows",
+                summary: "Cartels earn huge USD from US drug sales, need to turn into pesos and repatriate. Tighter AML on cash pushes criminals into TBML instead of bulk smuggling.",
+                typologies: ["Drug Trafficking", "Bulk Cash", "Trade-Based Money Laundering"],
+                countries: ["USA", "Mexico"],
+                commodities: ["Various"],
+                year: 2010,
+                description: "Historically bulk cash across 1,900-mile border; tighter controls force more sophisticated value-transfer and TBML mechanisms.",
+                detection: "Shift from cash to trade patterns.",
+                outcome: "Evolving laundering methods.",
+                lessons: "As cash controls tighten, criminals move to TBML.",
+                redFlags: [22, 26]
+            },
+            {
+                number: "Case 27",
+                title: "Family Art Feud as Laundering Exercise",
+                summary: "Robin Symes sells jointly owned art deco furniture for £15M after partner dies; sister claims she became owner. Instead of ring-fencing her £10M share, Symes pushes money through overseas holding companies and into Crédit Agricole Gibraltar account of a company he controls.",
+                typologies: ["Layering", "Offshore Structures"],
+                countries: ["UK", "Gibraltar"],
+                commodities: ["Art"],
+                year: 2005,
+                description: "By continually moving and mixing funds with other business flows (including a £10M loan), he makes trail so convoluted that family cannot prove missing £10M is same money from furniture sale. Layering is deliberate 'fog machine'.",
+                detection: "Civil litigation; tracing difficult.",
+                outcome: "Funds obscured.",
+                lessons: "Layering through multiple accounts and companies can defeat civil recovery.",
+                redFlags: [19, 20]
+            },
+            {
+                number: "Case 28",
+                title: "Sri Lankan Capital Flight via Related Import/Export Companies",
+                summary: "Traders with dual citizenship control both exporter and importer, overcharge Sri Lankan buyers, quietly shift profits offshore.",
+                typologies: ["Transfer Pricing", "Capital Flight"],
+                countries: ["Sri Lanka", "Various"],
+                commodities: ["Various"],
+                year: 2015,
+                description: "By invoicing exports to Sri Lanka at inflated prices through related entities in source countries or tax havens, they move capital out under guise of legitimate trade, evading FX controls.",
+                detection: "Trade data analysis; related-party scrutiny.",
+                outcome: "Capital flight.",
+                lessons: "Related-party trade allows profit shifting and FX evasion.",
+                redFlags: [10, 31]
+            },
+            {
+                number: "Case 29",
+                title: "ATM Cards and Fake Travel to Exploit FX Controls",
+                summary: "Importers open third-party accounts, collect ATM cards, send them abroad to withdraw cash at foreign ATMs, funding merchandise while exploiting gap between official and informal FX rates.",
+                typologies: ["FX Arbitrage", "Structuring"],
+                countries: ["Sri Lanka"],
+                commodities: ["Various"],
+                year: 2015,
+                description: "Others present fake tickets and travel documents to buy foreign currency at regulated bank rate, hit personal allowance, then sell currency or use to buy goods overseas, arbitraging fixed exchange-rate regime.",
+                detection: "ATM usage patterns; travel document verification.",
+                outcome: "FX leakage.",
+                lessons: "ATM cards and fake travel exploit FX controls, draining official reserves.",
+                redFlags: [17, 29]
+            },
+            {
+                number: "Case 30",
+                title: "Hawala, Crypto, and Netting Instead of Formal Flows",
+                summary: "Local 'investment coordinators' collect rupees from investors, use hawala to convert migrant workers' foreign earnings into offshore crypto investments—no FX crosses borders officially.",
+                typologies: ["Hawala", "Cryptocurrency", "Netting"],
+                countries: ["Sri Lanka"],
+                commodities: ["None"],
+                year: 2015,
+                description: "Parents sending money to students abroad also bypass banks: hawaladars take rupees locally, pay students from foreign pools, or relatives in third countries pay student while parents settle in rupees.",
+                detection: "Parallel banking; no formal FX records.",
+                outcome: "Capital flight.",
+                lessons: "Hawala and crypto create parallel settlement systems invisible to regulators.",
+                redFlags: [57]
+            },
+            {
+                number: "Case 31",
+                title: "Cashew Carousel with Offshore Fronting",
+                summary: "Free-zone Company Alpha pretends to trade Ivory Coast cashew nuts but cycles large payments through account to move money for others.",
+                typologies: ["Carousel Transactions", "Shell Companies"],
+                countries: ["Ivory Coast", "Lebanon"],
+                commodities: ["Cashews"],
+                year: 2010,
+                description: "Inward/outward transfers of ~$25M match almost exactly, exceed producing country's total cashew exports, lack real shipping documents, generate fixed 10% 'profit' wired to Lebanese beneficiaries later sanctioned.",
+                detection: "Trade data exceeding country's exports; matching in-out transfers; no shipping docs.",
+                outcome: "Sanctions evasion.",
+                lessons: "Carousel trades with exact matching values indicate value transfer, not genuine trade.",
+                redFlags: [1, 20, 34]
+            },
+            {
+                number: "Case 32",
+                title: "Oil Premium Gaming with Letters of Indemnity",
+                summary: "Company Alpha sells refined oil at implausibly high $50/MT premium over Platts when market suggests $10/MT, locking in abnormal margins.",
+                typologies: ["Over-invoicing", "Documentation Fraud"],
+                countries: ["Various"],
+                commodities: ["Oil"],
+                year: 2012,
+                description: "Banks let Alpha replace proper origin/quantity documents with Letters of Indemnity, so incomplete, off-channel paperwork masks real counterparties and enables politically connected owners to extract value under cover of 'normal' trading.",
+                detection: "Price benchmarking against Platts; scrutiny of Letters of Indemnity.",
+                outcome: "Value extraction.",
+                lessons: "Consistent above-market premiums and use of indemnities instead of full docs are TBML red flags.",
+                redFlags: [23, 42, 61]
+            },
+            {
+                number: "Case 33",
+                title: "Kitting and Fake Certificates of Origin in Oil Trade Finance",
+                summary: "Free-zone trader Alpha and related Beta use multiple bank relationships and receivable finance to 'kit' oil and petrochemical trades that are largely fictitious.",
+                typologies: ["Documentation Fraud", "Shell Companies", "Sanctions Evasion"],
+                countries: ["Free zone", "Sanctioned country"],
+                commodities: ["Oil", "Petrochemicals"],
+                year: 2013,
+                description: "They upload scanned certificates of origin with serial anomalies, resist document sampling, route funds to shell supplier Cucu linked to sanctioned country, push numerous MT103 transfers. Chamber of commerce confirms certificates forged.",
+                detection: "Certificate serial anomalies; refusal to provide originals; chamber verification.",
+                outcome: "Scheme exposed.",
+                lessons: "Fake certificates of origin and resistance to document sampling indicate fraud.",
+                redFlags: [41, 43, 44, 54]
+            },
+            {
+                number: "Case 34",
+                title: "Ships Going Dark to Obscure Cargo and Counterparties",
+                summary: "Vessels deliberately switch off AIS transponders so routes and port calls cannot be tracked. By going dark on key legs, they load, trans-ship, or discharge sanctioned or misdeclared cargoes without digital trail.",
+                typologies: ["AIS Manipulation", "Sanctions Evasion"],
+                countries: ["Various"],
+                commodities: ["Various"],
+                year: 2015,
+                description: "Supports TBML structures built on forged paperwork and falsified origin, while banks rely on 'clean' docs not matching physical voyage.",
+                detection: "AIS gap analysis; satellite imagery.",
+                outcome: "Obscured cargo movements.",
+                lessons: "AIS gaps should trigger enhanced due diligence; vessels going dark may be hiding illicit activity.",
+                redFlags: [59]
+            },
+            {
+                number: "Case 35",
+                title: "Scrap Gold Undervaluation Loop",
+                summary: "US Homeland Security uncovers scheme where scrap gold shipped from Central America to US at artificially low declared values, but exporters paid vastly more than customs paperwork suggests.",
+                typologies: ["Under-invoicing", "Trade-Based Money Laundering"],
+                countries: ["Central America", "USA"],
+                commodities: ["Gold"],
+                year: 2014,
+                description: "Two colluding Central American companies declare only $6.4M scrap gold exports while receiving $24M in wire transfers from US importer—$17.6M illicit value moved through trade system.",
+                detection: "Customs vs wire transfer reconciliation.",
+                outcome: "$17.6M laundered.",
+                lessons: "Massive mismatch between declared export value and import payments indicates under-invoicing.",
+                redFlags: [42, 62]
+            },
+            {
+                number: "Case 36",
+                title: "Aluminium Imports to Dodge Duties and Launder Proceeds",
+                summary: "US v Garcia-Adarme: conspirators import aluminium from China into Puerto Rico using false invoices to evade ~$26.7M in anti-dumping duties. Also charged with conspiracy to launder money after attempting to send ~$6.9M from Puerto Rico to Malaysia to promote ongoing customs fraud.",
+                typologies: ["Under-invoicing", "Customs Fraud", "Trade-Based Money Laundering"],
+                countries: ["China", "Puerto Rico", "Malaysia"],
+                commodities: ["Aluminium"],
+                year: 2010,
+                description: "Misinvoicing tied directly to laundering cycle.",
+                detection: "Customs investigation; wire transfer monitoring.",
+                outcome: "$26.7M duty evasion; $6.9M laundering attempt.",
+                lessons: "Duty evasion and money laundering often co-exist in misinvoicing schemes.",
+                redFlags: [42, 62]
+            },
+            {
+                number: "Case 37",
+                title: "Carousel Fraud in Trade Flows",
+                summary: "Illustrates classic carousel-style TBML where goods or invoices loop through multiple entities to justify rapid movement of funds.",
+                typologies: ["Carousel Transactions", "VAT Fraud"],
+                countries: ["Various"],
+                commodities: ["Various"],
+                year: 2010,
+                description: "Repeated circular trades and invoicing create illusion of genuine commerce while real objective is value transfer and tax/VAT manipulation.",
+                detection: "Circular transaction patterns; no economic rationale.",
+                outcome: "Value transfer.",
+                lessons: "Carousel trades with no net change in ownership indicate value movement.",
+                redFlags: [20, 34]
+            },
+            {
+                number: "Case 38",
+                title: "Misuse of Legal Entities as TBML Vehicles",
+                summary: "Legal entities set up not to run real businesses but to hold accounts and documentation making dirty trade flows look legitimate.",
+                typologies: ["Shell Companies", "Front Companies"],
+                countries: ["Various"],
+                commodities: ["Various"],
+                year: 2010,
+                description: "Shell companies, front companies, nominee-owned firms give criminals multiple bank footprints and documentary identities, allowing them to open LCs, appear as importers/exporters, shield true controllers.",
+                detection: "Corporate registry analysis; nominee director patterns.",
+                outcome: "Facilitation of TBML.",
+                lessons: "Shells and fronts are essential TBML infrastructure.",
+                redFlags: [1, 5, 10]
+            },
+            {
+                number: "Case 39",
+                title: "Black Market Peso‑Style Account Hijacking",
+                summary: "Client in Nepal tries to pay UK supplier £10,000 via hawala; criminal group intercepts, substitutes its own UK cash. Gang takes rupees in Nepal, then uses UK illicit sterling to deposit same amount into supplier's UK bank account via multiple branches.",
+                typologies: ["Black Market Peso Exchange", "Hawala"],
+                countries: ["Nepal", "UK"],
+                commodities: ["None"],
+                year: 2015,
+                description: "Trade looks clean on both sides while criminals have laundered UK proceeds and captured usable cash in Nepal.",
+                detection: "Interception pattern; multiple cash deposits.",
+                outcome: "Laundering via trade payment.",
+                lessons: "Criminals can hijack legitimate trade payments to launder funds.",
+                redFlags: [16, 22]
+            },
+            {
+                number: "Case 40",
+                title: "Oil Trading Premiums and Letters of Indemnity",
+                summary: "Commodities trader Alpha consistently books $50/MT premium over Platts when market suggests $10/MT—part of 'premium' is concealed value transfer.",
+                typologies: ["Over-invoicing", "Documentation Fraud"],
+                countries: ["Various"],
+                commodities: ["Oil"],
+                year: 2012,
+                description: "Banks rely on Letters of Indemnity instead of full docs under LCs, accepting Alpha's pre-set wording and incomplete document flows, letting politically connected owners smuggle hard currency under disguise of high-priced oil trades.",
+                detection: "Premium vs Platts benchmark; use of indemnities.",
+                outcome: "Value smuggling.",
+                lessons: "Sustained above-market premiums and indemnity reliance are red flags.",
+                redFlags: [23, 42, 61]
+            },
+            {
+                number: "Case 41",
+                title: "Kitted Oil Trades and Forged Certificates of Origin",
+                summary: "In free zone, Alpha (trader) and Beta (kitting partner) use multiple banks and invoice-discounting to finance largely fictitious oil/petrochemical trades.",
+                typologies: ["Documentation Fraud", "Shell Companies", "Sanctions Evasion"],
+                countries: ["Free zone", "Sanctioned country"],
+                commodities: ["Oil", "Petrochemicals"],
+                year: 2013,
+                description: "Upload scanned certificates of origin with serial irregularities, fail to produce originals, route payments to shell Cucu linked to sanctioned jurisdiction, push many MT103s. Chamber confirms certificates forged.",
+                detection: "Certificate anomalies; refusal to provide originals; chamber verification.",
+                outcome: "Scheme exposed.",
+                lessons: "Fake certificates and resistance to document checks indicate fraud.",
+                redFlags: [41, 43, 44, 54]
+            },
+            {
+                number: "Case 42",
+                title: "Ships Going Dark to Support Sanctions Evasion",
+                summary: "Vessels in these trade chains deliberately turn off AIS transponders, hiding movements. Going dark while loading/trans-shipping/discharging makes it easier to pair forged docs with physical movements regulators cannot track.",
+                typologies: ["AIS Manipulation", "Sanctions Evasion"],
+                countries: ["Various"],
+                commodities: ["Various"],
+                year: 2015,
+                description: "Leaves international banks exposed when financing trades that cannot be reconciled with verifiable voyage history.",
+                detection: "AIS gap analysis; satellite tracking.",
+                outcome: "Obscured voyages.",
+                lessons: "AIS gaps should trigger enhanced due diligence.",
+                redFlags: [59]
+            },
+            {
+                number: "Case 43",
+                title: "Black Market Peso Exchange as Learning Template",
+                summary: "BMPE model: drugs sold in US for dollars; cartel sells dollars at discount to Peruvian broker, takes clean local currency. Broker launders US cash through banks (smurfing) and uses to pay US exporters on behalf of Peruvian importers; goods sold in Peru for local currency repay broker.",
+                typologies: ["Black Market Peso Exchange", "Trade-Based Money Laundering"],
+                countries: ["USA", "Peru"],
+                commodities: ["Various"],
+                year: 2000,
+                description: "Loop turns US drug cash into clean Peruvian Sol while teaching criminals how to weaponise normal trade.",
+                detection: "Pattern of cash deposits followed by trade payments.",
+                outcome: "Laundering system.",
+                lessons: "BMPE is a foundational TBML model.",
+                redFlags: [16, 22]
+            },
+            {
+                number: "Case 44",
+                title: "Transfer Mispricing as Systematic Tax Abuse",
+                summary: "Multinationals legally/illegally shift profits out of higher-tax countries using pricing tricks between subsidiaries: export mispricing (Glencore Zambian copper sold cheap to Swiss parent), import mispricing (SABMiller paying high fees to Swiss affiliate), IP royalty abuse (SABMiller holding African beer brands in Dutch entity charging royalties), re-invoicing.",
+                typologies: ["Transfer Pricing", "Tax Evasion"],
+                countries: ["Zambia", "Switzerland", "Ghana", "Netherlands", "Various"],
+                commodities: ["Copper", "Beer", "Various"],
+                year: 2010,
+                description: "Hidden value shifts between jurisdictions under cover of normal trade documentation.",
+                detection: "Benchmarking against arm's length prices; related-party scrutiny.",
+                outcome: "Tax base erosion.",
+                lessons: "Transfer pricing abuses are systematic TBML via trade.",
+                redFlags: [31, 42]
+            },
+            {
+                number: "Case 45",
+                title: "Judge Looting Court Funds into Overseas Assets",
+                summary: "Two judges, Mr NB and Ms RR, abuse authority to withdraw large cash from debtors' accounts and move ~BND 1.37M into personal accounts in Country A. Use stolen money to buy house and vehicles abroad.",
+                typologies: ["Embezzlement", "Cross-Border Laundering"],
+                countries: ["Country A"],
+                commodities: ["Real estate", "Vehicles"],
+                year: 2010,
+                description: "Investigators trace funds using cash serial numbers from original theft to purchases in Country A.",
+                detection: "Cash serial number tracking.",
+                outcome: "BND 1.37M laundered.",
+                lessons: "Cash serial numbers can link theft to asset purchases.",
+                redFlags: [22]
+            },
+            {
+                number: "Case 46",
+                title: "PEP Offshore Bribes through Family Shells",
+                summary: "Peruvian PEP at state enterprise receives bribes from Latin American conglomerate into offshore account opened just before first payment. Money split across four offshore companies in four countries held by family/associates, used to buy luxury cars, properties, bankroll political campaign.",
+                typologies: ["Corruption", "PEP Abuse", "Offshore Structures"],
+                countries: ["Peru", "Various"],
+                commodities: ["Luxury cars", "Real estate"],
+                year: 2012,
+                description: "Grand corruption turned into apparently legitimate wealth spread across jurisdictions.",
+                detection: "Timing of account opening; beneficial ownership tracing.",
+                outcome: "Corruption proceeds laundered.",
+                lessons: "Offshore accounts opened just before large payments are red flags for bribes.",
+                redFlags: [1, 12]
+            },
+            {
+                number: "Case 47",
+                title: "Pork Barrel Ghost Projects and Fake NGOs",
+                summary: "Philippine lawmakers' 'pork barrel' funds for local projects routed through fake foundations and NGOs controlled by Ms N. Funds rapidly withdrawn in cash, divided between Ms N, lawyer, agency officials, politicians, then recycled into personal accounts, relatives' companies, insurance, US-bound MSB transfers, high-end assets.",
+                typologies: ["Ghost Projects", "NGO Fraud", "Corruption"],
+                countries: ["Philippines", "USA"],
+                commodities: ["None"],
+                year: 2010,
+                description: "Non-existent projects provide cover story.",
+                detection: "Cash withdrawals; lack of project evidence.",
+                outcome: "Public funds stolen.",
+                lessons: "Fake NGOs and ghost projects launder government funds through cash and asset purchases.",
+                redFlags: [1, 22]
+            },
+            {
+                number: "Case 48",
+                title: "Federal Construction Contracts and Latvian Loan‑Back Loop",
+                summary: "Organised crime group wins state construction contracts via Company Alpha, siphons advances to related firms Beta and Gamma on sham subcontracts. Money parked in promissory notes, moved through Latvian shells Sigma, Epsilon, Tau, then placed in Latvian bank trust and re-introduced as 'loans' to Omega and Zeta managing holding company finances.",
+                typologies: ["Corruption", "Shell Companies", "Loan-Back"],
+                countries: ["Latvia"],
+                commodities: ["None"],
+                year: 2011,
+                description: "Stolen public funds turned into seemingly legitimate investment capital.",
+                detection: "Funds tracing through shells; sham subcontracts.",
+                outcome: "Public funds laundered.",
+                lessons: "Loan-back schemes recycle stolen funds as 'clean' loans.",
+                redFlags: [1, 10, 20]
+            },
+            {
+                number: "Case 49",
+                title: "Multibillion Crypto Ponzi Fronted by CUMA",
+                summary: "CUMA, tied to OneCoin ecosystem, sells 'crypto investment tutorials' while channelling client funds into fraudulent cryptocurrency scheme. Fails to report activity to tax authorities, uses accounts to buy luxury goods in breach of Belize restrictions on OneLife.",
+                typologies: ["Ponzi Scheme", "Cryptocurrency", "Fraud"],
+                countries: ["Belize"],
+                commodities: ["Luxury goods"],
+                year: 2015,
+                description: "Launders vast criminal proceeds behind tech-fintech innovation veneer.",
+                detection: "Tax authority non-reporting; breach of restrictions.",
+                outcome: "Billions laundered.",
+                lessons: "Crypto Ponzi schemes use shell entities to launder proceeds.",
+                redFlags: [1, 22]
+            },
+            {
+                number: "Case 50",
+                title: "Dark‑Web Drug Proceeds into Crypto via 70 Accounts",
+                summary: "Mr X uses two Polish companies, AAA and BBB, with some 70 small-bank accounts for incoming flows from drug and dark-web activity. Funds consolidated and sent to Bitfinex and foreign shell CCC Corp, with some flows via intermediary crypto-trading providers.",
+                typologies: ["Drug Trafficking", "Cryptocurrency", "Structuring"],
+                countries: ["Poland"],
+                commodities: ["None"],
+                year: 2016,
+                description: "Scattered illicit zloty and euros converted into harder-to-trace virtual assets.",
+                detection: "Many small accounts; consolidation to crypto exchanges.",
+                outcome: "Crypto laundering.",
+                lessons: "Multiple small accounts and crypto exchanges layer drug money.",
+                redFlags: [17, 19, 27]
+            },
+            {
+                number: "Case 51",
+                title: "Business Email Compromise with US Bank Mules",
+                summary: "Fraudsters in Nigeria, Ghana, Zimbabwe, South Africa hijack business email threads, redirect victims' payments to Bank of America and Wells Fargo accounts posing as lawyers' client accounts. Then cash out and buy high-value goods.",
+                typologies: ["Cyber Fraud", "Mules", "Trade-Based Money Laundering"],
+                countries: ["Nigeria", "Ghana", "Zimbabwe", "South Africa", "USA"],
+                commodities: ["Luxury goods"],
+                year: 2015,
+                description: "Cyber-enabled BEC combined with US banking infrastructure and luxury trade to complete laundering cycle.",
+                detection: "BEC pattern; mule accounts; subsequent purchases.",
+                outcome: "Fraud proceeds laundered.",
+                lessons: "BEC fraudsters use mule accounts and luxury purchases to launder.",
+                redFlags: [16, 22]
+            },
+            {
+                number: "Case 52",
+                title: "Fuel Transport Companies as Drug Logistics and Laundering Fronts",
+                summary: "Family builds cluster of fuel-transport and service-station companies. Company C jumps from modest profits to significant assets/revenues after purchase. Contracts with state fuel companies serve as cover for cross-border drug transport.",
+                typologies: ["Drug Trafficking", "Front Companies", "Fake Contracts"],
+                countries: ["Various"],
+                commodities: ["Fuel"],
+                year: 2014,
+                description: "45% of activity linked to fake contracts; multiple bank accounts wash flows; more related entities created under relatives' names to expand web.",
+                detection: "Rapid unexplained growth; fake contracts; related entities.",
+                outcome: "Drug logistics and laundering.",
+                lessons: "Fuel transport companies can be fronts for drug trafficking and money laundering.",
+                redFlags: [1, 5, 10]
+            },
+            {
+                number: "Case 53",
+                title: "Internet Pharmacies Shipping Psychotropics Worldwide",
+                summary: "Mr X and Ms X run 'software' and web-support companies that facilitate illegal online pharmacies shipping psychotropic drugs globally. Use fake bank accounts, two MSBs they secretly own, forged IDs, rubber stamps, e-cheques, e-wallets, plus five more companies with 19 accounts to receive remittances from multiple countries.",
+                typologies: ["Drug Trafficking", "Cyber Fraud", "MSB Abuse"],
+                countries: ["Various"],
+                commodities: ["Pharmaceuticals"],
+                year: 2013,
+                description: "Business made to look like ordinary online commerce.",
+                detection: "Fake accounts; forged IDs; multiple entities.",
+                outcome: "Global drug distribution.",
+                lessons: "Online pharmacies use complex entity structures to launder proceeds.",
+                redFlags: [1, 44]
+            },
+            {
+                number: "Case 54",
+                title: "Methamphetamine Business Run from Prison",
+                summary: "Mohamed Atta orchestrates meth imports into New Zealand from Thai supplier while serving 10.5-year sentence. Using smuggled phones, wife's help, international remittance services, local bank account, coordinates orders, payments, commissions.",
+                typologies: ["Drug Trafficking", "Prison-Organized Crime"],
+                countries: ["New Zealand", "Thailand"],
+                commodities: ["Methamphetamine"],
+                year: 2015,
+                description: "Prison cell turned into distribution and payments hub.",
+                detection: "Prison phone monitoring; investigation.",
+                outcome: "Continued drug trade from prison.",
+                lessons: "Incarcerated traffickers can still run operations using phones and remittance services.",
+                redFlags: [16]
+            },
+            {
+                number: "Case 55",
+                title: "Serbian Hotel Takeover to Launder Drug Profits",
+                summary: "Serbian crime ring buys hotel-management company using structured deposits, corrupted bank official, professional advisors. Channel drug proceeds from abroad into hotel, acquire agricultural holdings, then loop funds through loans from their foreign companies back into Serbian entities.",
+                typologies: ["Trade-Based Money Laundering", "Real Estate", "Loan-Back"],
+                countries: ["Serbia"],
+                commodities: ["Hotel", "Agricultural holdings"],
+                year: 2012,
+                description: "Illicit capital embedded into apparently legitimate expansion.",
+                detection: "Structured deposits; related-party loans.",
+                outcome: "Drug profits laundered.",
+                lessons: "Real estate and loan-backs launder drug money into legitimate businesses.",
+                redFlags: [17, 20]
+            },
+            {
+                number: "Case 56",
+                title: "Textile and Construction Web with Hezbollah Links",
+                summary: "Family-run textile business shows huge mismatches between declared trade and actual FX flows, many related companies, common auditors. Money moves to Central American entities tied to Hezbollah and Colombian criminal groups.",
+                typologies: ["Terrorism Financing", "Drug Trafficking", "Trade-Based Money Laundering"],
+                countries: ["Central America", "Colombia"],
+                commodities: ["Textiles"],
+                year: 2013,
+                description: "Construction companies use trust administrators and family nominees to channel and disguise funds from drug trafficking and terrorism support.",
+                detection: "Trade vs FX mismatches; related-party links.",
+                outcome: "Hezbollah and cartel funding.",
+                lessons: "Trade mismatches and common auditors may hide terrorism financing.",
+                redFlags: [1, 10, 12]
+            },
+            {
+                number: "Case 57",
+                title: "Amesta and Gesta — Free Money from Public Assets",
+                summary: "Private firms wire funds to Amesta to 'buy' credits and share capital of state entities in liquidation; in one case purchase funded by credit being sold, giving buyer risk-free value. Gesta acquires majority shares with near-maturing securities far below nominal, retro-fitted as creditor to justify flows.",
+                typologies: ["Corruption", "Asset Stripping"],
+                countries: ["Various"],
+                commodities: ["Luxury goods"],
+                year: 2010,
+                description: "Money paid ends up in Amesta's administrator's personal account as payment for luxury goods—looting public assets.",
+                detection: "Circular funding; personal enrichment.",
+                outcome: "Public assets looted.",
+                lessons: "Circular transactions involving public assets can mask looting.",
+                redFlags: [16, 22]
+            },
+            {
+                number: "Case 58",
+                title: "Three‑Generation Offshore Fraud Network ($1.6B)",
+                summary: "Brazilian-Polish-Paraguayan family builds Liechtenstein-BVI trust and company structure (Alpha, Beta, Cucu) using FX brokers they own to move large sums between multiple banks.",
+                typologies: ["Offshore Structures", "Fraud", "Layering"],
+                countries: ["Brazil", "Poland", "Paraguay", "Liechtenstein", "BVI"],
+                commodities: ["None"],
+                year: 2005,
+                description: "Funds circulate between offshore companies and Brazilian accounts, concealing source of $1.6B fraud, diffusing ownership among foundations and changing beneficiaries across generations.",
+                detection: "Complex structures; inter-generational trusts; FX broker ownership.",
+                outcome: "$1.6B fraud laundered.",
+                lessons: "Multi-generational offshore structures can hide fraud proceeds indefinitely.",
+                redFlags: [1, 10, 19]
+            },
+            {
+                number: "Case 59",
+                title: "Fake Directors and Passports in Cross‑Border Wire Spree",
+                summary: "Foreign Company Alpha wires large sums to Namibian Companies Beta and Cucu, which immediately convert and send funds to ~18 jurisdictions. Both firms registered using passports issued on false documents, with non-existent IDs and addresses, and bribes to immigration officer.",
+                typologies: ["Shell Companies", "Documentation Fraud"],
+                countries: ["Namibia", "Various"],
+                commodities: ["None"],
+                year: 2012,
+                description: "Pure TBML conduits with no real economic presence.",
+                detection: "Passport verification; addresses non-existent; immigration bribery.",
+                outcome: "Funds moved globally.",
+                lessons: "Shells with fake director identities are pure laundering vehicles.",
+                redFlags: [1, 5, 44]
+            },
+            {
+                number: "Case 60",
+                title: "Tobacco Smuggling with Freight Forwarder Laundering Hub",
+                summary: "Australian syndicate smuggles tobacco and cigarettes from UAE and Indonesia with help from complicit freight forwarding and transport companies. Freight forwarder handles container clearance, storage, unpacking, while moving $36M through personal and business accounts to linked export company.",
+                typologies: ["Tobacco Smuggling", "Trade-Based Money Laundering"],
+                countries: ["Australia", "UAE", "Indonesia"],
+                commodities: ["Tobacco", "Cigarettes"],
+                year: 2014,
+                description: "Use cash in garbage bags, cheque-backed withdrawals, mislabelled 'building materials' wires, payments to unrelated hairdressing and food-export entities.",
+                detection: "Cash logistics; unusual payments; smuggling investigation.",
+                outcome: "$36M laundered.",
+                lessons: "Freight forwarders can be central hubs for both smuggling and laundering.",
+                redFlags: [16, 22, 40]
+            },
+            {
+                number: "Case 61",
+                title: "Casino Owner Laundering via Counterfeit Cards",
+                summary: "Casino founder creates counterfeit payment cards tied to foreign accounts, drains them, credits money into his casino account as 'gambling losses.' Manipulates internal records and tax reporting to show fake chip purchases and payouts, sends significant sums abroad while paying real expenses with stolen funds.",
+                typologies: ["Casino Laundering", "Credit Card Fraud"],
+                countries: ["Various"],
+                commodities: ["None"],
+                year: 2013,
+                description: "Mixes theft and genuine casino cashflows.",
+                detection: "Counterfeit cards; record manipulation.",
+                outcome: "Theft and laundering.",
+                lessons: "Casinos can be used to layer funds through fake gambling transactions.",
+                redFlags: [22, 28]
+            },
+            {
+                number: "Case 62",
+                title: "Crypto Fraud and Money Laundering via Smurfs",
+                summary: "Mr X sends multiple overseas transfers inconsistent with his profile, funded by cyber-fraud across ten countries and 118 victims. Fourteen beneficiaries in Bahrain each take 2% cut and forward funds on (often to India) via banks, MSBs or cash redeposits.",
+                typologies: ["Cyber Fraud", "Structuring", "MSB Abuse"],
+                countries: ["Bahrain", "India", "Various"],
+                commodities: ["None"],
+                year: 2015,
+                description: "Splitting flows into small, sub-threshold amounts to avoid detection and convert fraud proceeds into apparently legitimate transfers.",
+                detection: "Multiple small transfers; inconsistent profile.",
+                outcome: "Fraud proceeds laundered.",
+                lessons: "Smurfing via MSBs and banks layers cyber-fraud proceeds.",
+                redFlags: [17, 19]
+            },
+            {
+                number: "Case 63",
+                title: "Diamond Trading as Underground Banking",
+                summary: "Diamond dealers in Israel use their companies as unregistered MSBs under cover of import-export, mixing cash and trade flows. Misdeclare parcels (e.g., swap low-value stones for high-value ones), file fake customs declarations for unrelated buyers, use resealed parcels and bank-accepted documentation to justify multi-million dollar transfers.",
+                typologies: ["Trade-Based Money Laundering", "Underground Banking", "Diamonds"],
+                countries: ["Israel"],
+                commodities: ["Diamonds"],
+                year: 2010,
+                description: "Diamond bourse turned into informal banking and TBML platform.",
+                detection: "Customs misdeclarations; parcel swapping; unregistered MSB activity.",
+                outcome: "Underground banking.",
+                lessons: "Diamond trade's portability and value make it ideal for TBML and underground banking.",
+                redFlags: [41, 44, 61, 62]
+            },
+            {
+                number: "Case 64",
+                title: "Fake IC Imports and Carousel Fraud in Korea",
+                summary: "Sam controls companies Kopa and Guru trading integrated circuits between Korea and 'Country A', supported by several shell companies. Runs repeated circular shipments, manipulates prices, offers Korean import agencies small profit to keep them in, uses inflated trade figures to secure $3.1M in bank loans never repaid, channels large ATM transfers between entities.",
+                typologies: ["Carousel Transactions", "Loan Fraud", "Trade-Based Money Laundering"],
+                countries: ["Korea", "Country A"],
+                commodities: ["Integrated circuits"],
+                year: 2012,
+                description: "Blends fraud, carousel trade, and TBML.",
+                detection: "Circular shipments; price manipulation; loan default.",
+                outcome: "$3.1M loan fraud.",
+                lessons: "Carousel trade can support loan fraud and layering.",
+                redFlags: [20, 34, 42]
+            },
+            {
+                number: "Case 65",
+                title: "Vegetable Seeds Sector — Quiet but Ripe for TBML",
+                summary: "Dutch FIU vulnerability mapping of vegetable seed industry: breeders in tight geographic clusters, outsource 80% seed production to non-EU countries, re-import for cleaning and onward trade. Relies on complex cross-border outsourcing, valuable IP, high-value small consignments.",
+                typologies: ["Vulnerability Assessment", "Trade-Based Money Laundering"],
+                countries: ["Netherlands", "Various"],
+                commodities: ["Vegetable seeds"],
+                year: 2015,
+                description: "Sector structurally vulnerable to misclassification, mispricing, fictitious exports. FIU observed many trades at fair market value and used sector expertise to baseline 'normal' flows and spot anomalies.",
+                detection: "Sector expertise; baseline normal flows.",
+                outcome: "Improved monitoring.",
+                lessons: "Even legitimate sectors can be vulnerable; understanding normal trade is key.",
+                redFlags: [29, 31, 42]
+            },
+            {
+                number: "Case 66",
+                title: "Virtual Currency ATMs and Smurfing Network",
+                summary: "Organised crime group runs crypto-exchange business with two crypto ATMs to turn bulk criminal cash into cryptocurrency. Cash-carriers pick up notes, smurf deposits across multiple bank accounts controlled by group, layer funds through several accounts, then convert into virtual assets passed to other criminal groups as clean, mobile store of value.",
+                typologies: ["Cryptocurrency", "Structuring", "ATM Laundering"],
+                countries: ["Various"],
+                commodities: ["None"],
+                year: 2016,
+                description: "Crypto ATMs enable cash-to-crypto conversion.",
+                detection: "Multiple small cash deposits; crypto ATM usage.",
+                outcome: "Cash converted to crypto.",
+                lessons: "Crypto ATMs and smurfing turn cash into harder-to-trace virtual assets.",
+                redFlags: [17, 22, 28]
+            },
+            {
+                number: "Case 67",
+                title: "High-Value Bird Trafficking into North Africa",
+                summary: "Network in Spain traffics endangered birds to North African buyers using forged documents and concealment in buses. Also run online scams taking payment for birds never delivered; house searches find over 400 cannabis plants.",
+                typologies: ["Wildlife Trafficking", "Fraud", "Drug Cultivation"],
+                countries: ["Spain", "North Africa"],
+                commodities: ["Birds", "Cannabis"],
+                year: 2014,
+                description: "Poly-criminal activity driven by demand from collectors willing to pay hundreds of thousands of euros for rare parrots.",
+                detection: "Forged documents; bus concealment; cannabis discovery.",
+                outcome: "Poly-criminal operation.",
+                lessons: "Wildlife trafficking can be part of broader criminal portfolios.",
+                redFlags: [44]
+            },
+            {
+                number: "Case 68",
+                title: "Fake Bitcoin/Gold/Diamond Investment Platform",
+                summary: "Israeli-controlled network in Belgium and France markets fake high-yield investments in bitcoin, gold, diamonds via online platforms. Create bogus companies, promise 5-35% returns, pay some early 'interest' to build trust, then funnel new victim money through accounts in multiple EU states and out internationally.",
+                typologies: ["Investment Fraud", "Ponzi Scheme", "Cross-Border Fraud"],
+                countries: ["Belgium", "France", "Israel", "Various"],
+                commodities: ["Bitcoin", "Gold", "Diamonds (fictitious)"],
+                year: 2015,
+                description: "Defrauded at least €6M including large French corporate and local authority.",
+                detection: "Ponzi pattern; multi-jurisdiction accounts.",
+                outcome: "€6M+ fraud.",
+                lessons: "Fake investment platforms use trade-sounding commodities to lure victims.",
+                redFlags: [1, 16]
+            },
+            {
+                number: "Case 69",
+                title: "Underground Cigarette Factory with Forced Labour",
+                summary: "Spanish police discover fully equipped illegal cigarette factory buried four metres underground, with production lines and worker dormitories. Workers locked in, forced to operate in toxic conditions; network produces over 2M unsanitary counterfeit cigarettes, estimated to earn ~€625,000 per week.",
+                typologies: ["Counterfeit Goods", "Forced Labour", "Organised Crime"],
+                countries: ["Spain"],
+                commodities: ["Cigarettes"],
+                year: 2015,
+                description: "Laundering channels not detailed, but profits likely laundered through trade or cash.",
+                detection: "Police raid.",
+                outcome: "Factory shut down.",
+                lessons: "Counterfeit production generates massive illicit profits needing laundering.",
+                redFlags: []
+            },
+            {
+                number: "Case 70",
+                title: "Pan-European VAT Fraud on Chinese Clothing Imports",
+                summary: "Several networks import clothing and shoes from China into EU using customs procedure deferring import VAT, then underdeclare values or let goods 'disappear' in transit. Exploit logistics knowledge and control gaps, use shell companies later shut down, ship at least 500,000 counterfeit items into France alone.",
+                typologies: ["VAT Fraud", "Counterfeit Goods", "Shell Companies"],
+                countries: ["China", "France", "Various EU"],
+                commodities: ["Clothing", "Shoes"],
+                year: 2014,
+                description: "VAT theft and counterfeiting turned into cross-border revenue engine with opaque laundering paths.",
+                detection: "Customs checks; shell company patterns.",
+                outcome: "VAT evasion; counterfeit distribution.",
+                lessons: "VAT fraud and counterfeiting often co-occur with TBML.",
+                redFlags: [1, 42]
+            },
+            {
+                number: "Case 71",
+                title: "EU Funds, Fake Tenders and Leasing Loops",
+                summary: "OLAF 2019 case: three inter-connected companies in Poland secured ~€5.2M ERDF co-financing across eight projects using fake/inflated invoices, manipulated tenders, falsified project paperwork, often ensuring only one bid or multiple bids from same concealed ownership.",
+                typologies: ["Procurement Fraud", "EU Fund Abuse", "Leasing Loops"],
+                countries: ["Poland"],
+                commodities: ["Various"],
+                year: 2019,
+                description: "Created circular leasing chains: tool bought for €4,000 leased to related intermediary for €4,500/month, then sub-leased to project company at €4,800/month for over a year, inflating costs and converting EU funds into private profit under guise of normal commercial contracts.",
+                detection: "Tender analysis; related-party leasing; OLAF investigation.",
+                outcome: "€5.2M fraud.",
+                lessons: "Circular leasing and related-party transactions inflate costs to divert EU funds.",
+                redFlags: [10, 31]
+            },
+            {
+                number: "Case 72",
+                title: "Vehicles and Luxury Trade as Laundering Infrastructure",
+                summary: "Italian and Spanish authorities dismantle Mafia-linked network using high-end vehicles and luxury goods as both cover and value-transfer mechanism. Criminal cash buys German cars, wrapped in fake VAT and trade chains, while import-export companies controlled by OCG move watches, shoes, textiles between Europe, Hong Kong, Colombia, Morocco.",
+                typologies: ["Trade-Based Money Laundering", "Mafia", "Luxury Goods"],
+                countries: ["Italy", "Spain", "Germany", "Hong Kong", "Colombia", "Morocco"],
+                commodities: ["Cars", "Watches", "Shoes", "Textiles"],
+                year: 2013,
+                description: "Generates more 'legitimate' turnover and assets later seized across several countries.",
+                detection: "Cross-border asset tracking; fake VAT chains.",
+                outcome: "Assets seized.",
+                lessons: "Luxury goods and vehicles are both laundering tools and assets to seize.",
+                redFlags: [1, 10, 22]
+            },
+            {
+                number: "Case 73",
+                title: "Potatoes, Onions and Underground Banking",
+                summary: "Professional money-laundering network supporting drug traffickers uses import-export food business in Netherlands as hub. Potatoes and onions shipped to North African companies instructed to pay invoices into accounts controlled by launderers, allowing underground bankers in France, Belgium, Netherlands to transform drug cash into clean trade receivables.",
+                typologies: ["Trade-Based Money Laundering", "Hawala", "Underground Banking"],
+                countries: ["Netherlands", "France", "Belgium", "North Africa"],
+                commodities: ["Potatoes", "Onions"],
+                year: 2012,
+                description: "Estimated ~€400M laundered over four years.",
+                detection: "Cash-to-trade pattern; invoice payment instructions.",
+                outcome: "€400M laundered.",
+                lessons: "Everyday food exports can be used for underground banking.",
+                redFlags: [16, 31]
+            },
+            {
+                number: "Case 74",
+                title: "High-End Electronics and Trade Mis-Invoicing",
+                summary: "Australian Border Force traces over AUD 500M flowing through local bank accounts linked to North American drug proceeds. Funds layered via South-East Asian banks, then used to buy small, high-value electronics in Australia for export to Asia and Middle East at undervalued invoice prices.",
+                typologies: ["Under-invoicing", "Trade-Based Money Laundering", "Drug Trafficking"],
+                countries: ["Australia", "North America", "South-East Asia", "Middle East"],
+                commodities: ["Electronics"],
+                year: 2014,
+                description: "Physical goods quietly carry larger illicit value offshore than customs records indicate.",
+                detection: "Funds tracing; customs vs payment reconciliation.",
+                outcome: "AUD 500M traced.",
+                lessons: "Under-invoicing of electronics moves value offshore.",
+                redFlags: [42, 62]
+            },
+            {
+                number: "Case 75",
+                title: "Construction/Cleaning 'Compensation' Companies",
+                summary: "Belgium sees pattern of Brazilian and Portuguese nationals setting up short-lived construction and cleaning firms. These entities invoice other criminal groups for bogus building-maintenance services to absorb cash, then wire funds to Asian wholesalers instructed to buy merchandise for Belgian retailers.",
+                typologies: ["Front Companies", "Trade-Based Money Laundering"],
+                countries: ["Belgium", "Brazil", "Portugal", "Asia"],
+                commodities: ["Various"],
+                year: 2013,
+                description: "Anonymous cash converted into goods-backed payments and trade inventory.",
+                detection: "Short-lived companies; invoicing criminal groups; Asian wire patterns.",
+                outcome: "Cash converted to trade.",
+                lessons: "Short-lived service companies can absorb cash and convert to trade payments.",
+                redFlags: [1, 16, 22]
+            },
+            {
+                number: "Case 76",
+                title: "Fruit Exports and Third-Party Settlements",
+                summary: "New Zealand FIU receives SARs on fruit exporters being paid from Eastern European shell-company accounts unrelated to genuine Asian buyers. Banks shown fake invoices for 'ceramic tiles' signed by non-existent manager.",
+                typologies: ["Trade-Based Money Laundering", "Shell Companies", "Third-Party Payments"],
+                countries: ["New Zealand", "Eastern Europe", "Asia"],
+                commodities: ["Fruit"],
+                year: 2015,
+                description: "FIU assesses tens of millions may flow through complex TBML scheme converting illicit Eastern European funds into legitimate fruit-trade revenues.",
+                detection: "Third-party payments; fake invoices.",
+                outcome: "Tens of millions suspected.",
+                lessons: "Exporters paid by unrelated shells with fake invoices indicate TBML.",
+                redFlags: [1, 16, 44]
+            },
+            {
+                number: "Case 77",
+                title: "Commodity as Currency for Terrorists",
+                summary: "Terrorist organisation in Country C pays supplier in Country B for goods destined for importer in Country A. Once goods arrive, importer quietly pays value in local cash to operatives in Country A.",
+                typologies: ["Terrorism Financing", "Trade-Based Money Laundering"],
+                countries: ["Country C", "Country B", "Country A"],
+                commodities: ["Various"],
+                year: 2010,
+                description: "Terrorist group shifts funds from C to A via normal trade chain without any direct financial link between itself and its operatives.",
+                detection: "Intelligence linking trade to terrorist operatives.",
+                outcome: "Funds moved.",
+                lessons: "Trade can be used to settle terrorist obligations without direct financial flows.",
+                redFlags: [16]
+            },
+            {
+                number: "Case 78",
+                title: "MVTS/Hawala Network Piggybacking on Trade",
+                summary: "Multi-country network of MVTS and hawala settles trade between importers in Country A and exporters in Country B. Terrorist financier in Country D injects funds into this settlement chain via MVTS in Country C; rather than sending money to B, MVTS in Country A hands equivalent to local terrorist group.",
+                typologies: ["Terrorism Financing", "Hawala", "MVTS"],
+                countries: ["Country A", "Country B", "Country C", "Country D"],
+                commodities: ["Various"],
+                year: 2011,
+                description: "Terror finance embedded inside otherwise legitimate trade-settlement flows.",
+                detection: "Intelligence; settlement pattern analysis.",
+                outcome: "Terror finance.",
+                lessons: "Hawala networks settling trade can also settle terror obligations.",
+                redFlags: [16, 57]
+            },
+            {
+                number: "Case 79",
+                title: "Merchanting Trade and LC Arbitrage Fraud",
+                summary: "Company Lima in India inserts itself as merchanting middleman between Singapore exporter Meta and South Korean importer Nina, with goods shipped directly from Meta to Nina. Lima arranges LCs via factoring firm Omega, but colludes with Meta and Nina so after few clean cycles Nina stops paying while Meta has already discounted LCs.",
+                typologies: ["Merchanting Trade", "LC Fraud", "Factoring Abuse"],
+                countries: ["India", "Singapore", "South Korea"],
+                commodities: ["Nickel/copper scrap"],
+                year: 2012,
+                description: "Leaves Omega holding unpaid risk—neutral intermediation turned into deliberate LC-based fraud and TBML.",
+                detection: "Payment default pattern; related-party collusion.",
+                outcome: "Omega left with loss.",
+                lessons: "Merchanting trade can be used for LC arbitrage fraud.",
+                redFlags: [20, 24]
+            },
+            {
+                number: "Case 80",
+                title: "Worthless ICs, Inflated Invoices and Factoring Abuse",
+                summary: "In Singapore, Adam's listed Company Alpha sources near-worthless integrated circuit chips from Supplier Beta at grossly inflated prices, sells them on paper at same inflated value to Customer Cucu. Alpha finances first leg with bank trade credit, then discounts inflated receivables on Cucu to factoring entity Edo, uses proceeds to repay bank.",
+                typologies: ["Over-invoicing", "Factoring Abuse", "Circular Trade"],
+                countries: ["Singapore"],
+                commodities: ["Integrated circuits"],
+                year: 2013,
+                description: "Cucu's payment back to Edo funded from money Beta recycled to Cucu—bank and factor unwitting liquidity providers to circular, value-fake trade.",
+                detection: "Circular funds flow; inflated prices; worthless goods.",
+                outcome: "Fraud on bank and factor.",
+                lessons: "Circular trade with inflated invoices abuses trade finance and factoring.",
+                redFlags: [20, 42, 61]
+            },
+            {
+                number: "Case 81",
+                title: "Lebanese Bank P, BMPE and Used Cars/Consumer Goods",
+                summary: "Drug kingpin Q launders up to $200M/month cocaine proceeds via Lebanese Bank P, exchange houses, family accounts. Scheme A wires funds from Bank P to US car dealers buying used cars shipped to West Africa; sales proceeds repatriated to Lebanon as clean funds. Scheme B uses Individual R's Asian consumer-goods companies, funded via 30+ Bank P accounts, to ship goods whose local-currency sales complete BMPE cycle for Latin American cartels.",
+                typologies: ["Black Market Peso Exchange", "Trade-Based Money Laundering", "Bank Complicity"],
+                countries: ["Lebanon", "USA", "West Africa", "Asia", "Latin America"],
+                commodities: ["Cars", "Consumer goods"],
+                year: 2010,
+                description: "Bank P central to massive TBML and BMPE operations.",
+                detection: "Intelligence; pattern of US car purchases and West Africa shipments.",
+                outcome: "$200M/month laundered.",
+                lessons: "Banks can be central to BMPE networks using trade in cars and consumer goods.",
+                redFlags: [1, 16, 57]
+            },
+            {
+                number: "Case 82",
+                title: "Ponzi Diamonds and Round-Tripping via Hawala",
+                summary: "Indian Company X raises public cash in Ponzi scheme, moves it offshore to Company Y via hawala. Y then sends value back as 'advance payments' and supposed export proceeds for non-existent diamond shipments backed by forged invoices and purchase records.",
+                typologies: ["Ponzi Scheme", "Hawala", "Export Incentive Fraud"],
+                countries: ["India"],
+                commodities: ["Diamonds (fictitious)"],
+                year: 2012,
+                description: "Same money re-enters India as clean export earnings while beneficiaries harvest both over-valued export receipts and official export incentives.",
+                detection: "Ponzi investigation; forged diamond invoices; hawala links.",
+                outcome: "Export incentives fraud.",
+                lessons: "Hawala can round-trip Ponzi proceeds as fake export earnings to claim incentives.",
+                redFlags: [1, 16, 44, 61]
+            },
+            {
+                number: "Case 83",
+                title: "Shell R, Fake Overseas Suppliers and Trade-Loan Bust-Out",
+                summary: "Syndicate S in Jurisdiction A uses Shell Company R and sham suppliers in Jurisdictions B and C to obtain trade loans from 10+ banks against fake invoices. Loan proceeds wired straight to supplier shells, then quickly rerouted back to R and other syndicate accounts.",
+                typologies: ["Shell Companies", "Loan Fraud", "Bust-Out"],
+                countries: ["Jurisdiction A", "B", "C"],
+                commodities: ["Various (fictitious)"],
+                year: 2011,
+                description: "Service some loans temporarily but ultimately leave banks with non-performing exposures once circular transfers stop and no real goods/value exist.",
+                detection: "Circular flows; fake invoices; multiple bank exposure.",
+                outcome: "Banks left with bad loans.",
+                lessons: "Trade loans against fake invoices can be used for bust-out fraud.",
+                redFlags: [1, 20, 44]
+            },
+            {
+                number: "Case 84",
+                title: "Los Angeles Toy Company Laundering Colombian Drug Cash",
+                summary: "Toy Company T in Los Angeles accepts millions in sub-$10K deposits and office cash drops from Colombian drug cartel S. Uses those funds to import toys from Company U in China, then re-export them to Company V in Colombia, where local peso sales reimburse traffickers.",
+                typologies: ["Black Market Peso Exchange", "Trade-Based Money Laundering"],
+                countries: ["USA", "China", "Colombia"],
+                commodities: ["Toys"],
+                year: 2009,
+                description: "Cuddly exports become BMPE-style conduit cleaning US drug proceeds.",
+                detection: "Structured cash deposits; trade pattern with Colombia.",
+                outcome: "Drug cash laundered.",
+                lessons: "Toy trade can be BMPE vehicle for Colombian cartels.",
+                redFlags: [17, 22, 16]
+            },
+            {
+                number: "Case 85",
+                title: "Super‑Broker A — Overpriced LCs, Banned Pulses and Countertrade",
+                summary: "Dubai-based A runs companies A1-A3, exploits banks B1-B6 to open LCs far above true commodity values, tops up gap with drug cash, remits inflated proceeds to Indian exporters E1-E3. Exporters keep real cost and kick back surplus to A's family/associates via hawala.",
+                typologies: ["Over-invoicing", "Hawala", "Sanctions Evasion", "Countertrade"],
+                countries: ["Dubai", "India", "Afghanistan"],
+                commodities: ["Pulses", "Artificial jewellery"],
+                year: 2010,
+                description: "A also forges contracts to move banned Indian pulses, settles differentials off-books through alternate remitters, uses open-account exports of artificial jewellery to Afghanistan as countertrade for drugs.",
+                detection: "LC amounts vs real value; banned commodity movement; countertrade patterns.",
+                outcome: "Systematic TBML.",
+                lessons: "Super-brokers exploit LCs, export incentives, and countertrade to launder drug money.",
+                redFlags: [1, 42, 61]
+            },
+            {
+                number: "Case 86",
+                title: "Ask Trading — The Almost-Phantom TBML Conduit",
+                summary: "Ask Trading markets itself as substantial Russia-CIS logistics group with hundreds of staff and $800M turnover, but 'office' is few sparse cubicles, website one-page façade using stolen photos. Despite this, between 2001-2016 channels at least $671M through Deutsche Bank, JPMorgan, BNY Mellon.",
+                typologies: ["Shell Companies", "Trade-Based Money Laundering"],
+                countries: ["Russia", "UAE", "USA"],
+                commodities: ["Construction materials", "Fluorescent lamps"],
+                year: 2001,
+                description: "$4M supposedly for 'construction materials' to UAE firm; $27M from Russian LLC InterTrade via 50 rounded payments referencing single invoice for fluorescent lamps—irregular timing, implausible commercial logic.",
+                detection: "Physical inspection; website facade; rounded payments; implausible trade.",
+                outcome: "$671M laundered.",
+                lessons: "Façade companies with no real operations can move billions through major banks.",
+                redFlags: [1, 8, 21]
+            },
+            {
+                number: "Case 87",
+                title: "Mirror Trades, Stock-Manipulation Flows and Nominee Director",
+                summary: "Ask also surfaces in Deutsche Bank 'mirror trades' scandal, receiving $17M tied to Russian stock-laundering ring and $17M from separate stock-manipulation ring. Control shifts in 2014 to Singaporean nominee Heng Boon Liang—logistics employee, softball umpire, modest address—contradicts Ask's supposed scale.",
+                typologies: ["Mirror Trades", "Stock Manipulation", "Nominee Directors"],
+                countries: ["Russia", "Singapore"],
+                commodities: ["None"],
+                year: 2014,
+                description: "Founder Maxim Glazov uses inflated claims about Ask's success to promote other ventures—classic shell fronting for large-scale laundering.",
+                detection: "Mirror trades scandal; nominee director profile mismatch.",
+                outcome: "$34M laundered.",
+                lessons: "Nominee directors with modest profiles controlling large flows are red flags.",
+                redFlags: [1, 5, 20]
+            },
+            {
+                number: "Case 88",
+                title: "Bulk Cash Couriers Feeding a Free-Trade Zone",
+                summary: "In Country III's free-trade zone, companies openly receive more than $13.4M in five months from couriers who declare large cash at airport, claiming payment for FTZ firms. Cash originating from drug proceeds in Country I, briefly transiting Country II, handed to FTZ contacts to pay for export merchandise.",
+                typologies: ["Bulk Cash", "Free Trade Zones", "Drug Trafficking"],
+                countries: ["Country III", "Country I", "Country II"],
+                commodities: ["Various"],
+                year: 2012,
+                description: "Customs brokers, lawyers, other professionals smooth process; no systematic analysis of repeated cash declarations.",
+                detection: "Repeated large cash declarations at airport.",
+                outcome: "$13.4M cash received.",
+                lessons: "Free trade zones can be endpoints for bulk cash smuggling used to buy exports.",
+                redFlags: [14, 22, 55]
+            },
+            {
+                number: "Case 89",
+                title: "BMPE, Colon Free Zone and Miami Electronics",
+                summary: "Colombian-Lebanese network tied to Hezbollah launders over $15M/month via Asian commodity trade and Panama's Colon Free Zone. Drug proceeds funneled into Country I business accounts, used by Colombian traders to buy goods for South America, while CFZ businesses and Miami electronics firms accept drug money and ship electronics to Colombia.",
+                typologies: ["Black Market Peso Exchange", "Terrorism Financing", "Free Trade Zones"],
+                countries: ["Colombia", "Lebanon", "Panama", "USA", "Asia"],
+                commodities: ["Electronics", "Various"],
+                year: 2011,
+                description: "Resale proceeds returned to traffickers less commission, masked by paper-based, poorly integrated customs records.",
+                detection: "Intelligence linking Hezbollah; trade patterns; cash acceptance.",
+                outcome: "$15M/month laundered.",
+                lessons: "Colon Free Zone and Miami electronics are nodes in Hezbollah BMPE.",
+                redFlags: [14, 16, 55]
+            },
+            {
+                number: "Case 90",
+                title: "Alcohol and Tobacco Smuggling via CBWs and FTZs",
+                summary: "US company receives alcohol and tobacco into bonded warehouses and FTZs, repackages, re-routes shipments through other CBWs and FTZs before smuggling into domestic markets. Scheme relies on double invoicing, forged customs documents, counterfeit stamps, fake signatures, targets foreign diplomats as 'customers.'",
+                typologies: ["Excise Fraud", "Smuggling", "Terrorism Financing"],
+                countries: ["USA"],
+                commodities: ["Alcohol", "Tobacco"],
+                year: 2010,
+                description: "Profits laundered mainly into real estate; almost $950K untaxed stock seized; 12 conspirators linked to Abu Sayyaf-connected weapons/drug network convicted.",
+                detection: "Customs investigation; forged docs; diplomat ruse.",
+                outcome: "$950K seizure; convictions.",
+                lessons: "Bonded warehouses and FTZs can be used to divert excisable goods into domestic market.",
+                redFlags: [14, 44, 55]
+            },
+            {
+                number: "Case 91",
+                title: "'A' — Dubai-Based Super-Broker Laundering for Narco Networks",
+                summary: "Indian national 'A' based in Dubai, running companies A1-A3, laundered ~$1.5B/year globally, including $2.5M impacting India. Blended narcotics proceeds, tax evasion, commercial fraud through banks, MSBs, cash couriers, hawala, using dense web of shell firms across Europe, India, Hong Kong, Middle East, South Africa, US, Cook Islands.",
+                typologies: ["Trade-Based Money Laundering", "Hawala", "Shell Companies"],
+                countries: ["Dubai", "India", "Europe", "Hong Kong", "South Africa", "USA", "Cook Islands"],
+                commodities: ["Various"],
+                year: 2010,
+                description: "Family and associates control accounts in multiple jurisdictions.",
+                detection: "Enforcement Directorate investigation.",
+                outcome: "$1.5B/year laundered.",
+                lessons: "Super-brokers use global shell networks to launder narcotics proceeds.",
+                redFlags: [1, 10, 16]
+            },
+            {
+                number: "Case 92",
+                title: "Overpriced LCs, Export Incentives and Banned Pulses",
+                summary: "A's core innovation: weaponise letters of credit and India's export-incentive regime. Arranges LCs in Dubai via banks B1-B3 for exporters E1-E3, sets LC amounts well above real consignments, tops up gap with drug money; exporters keep true value plus incentive benefits, remit 'extra' to A's relatives via hawala.",
+                typologies: ["Over-invoicing", "Export Incentive Fraud", "Hawala"],
+                countries: ["Dubai", "India"],
+                commodities: ["Pulses"],
+                year: 2010,
+                description: "Genuine importers enjoy cheaper access to goods; some receive goods during formal export ban, thanks to forged, antedated contracts for pulses.",
+                detection: "LC vs real value; incentive claims; banned commodity movement.",
+                outcome: "Incentive fraud; sanctions evasion.",
+                lessons: "Over-invoicing plus export incentives and hawala is powerful TBML combo.",
+                redFlags: [42, 61]
+            },
+            {
+                number: "Case 93",
+                title: "Countertrade with Artificial Jewellery and Hawala Settlement",
+                summary: "A orchestrates exports of artificial jewellery from India to Afghanistan, naming A1-A3 as notifying parties, paying Indian exporters via open-account transfers from Dubai banks. Indian exporters then pay commissions in cash to A's agents in India.",
+                typologies: ["Countertrade", "Hawala", "Drug Trafficking"],
+                countries: ["India", "Afghanistan", "Dubai"],
+                commodities: ["Artificial jewellery"],
+                year: 2010,
+                description: "Effectively delivers goods to drug-producing jurisdictions as part-payment for narcotics while FX leg settled off-book through hawala.",
+                detection: "Open-account transfers; cash commission payments.",
+                outcome: "Drug settlements via jewellery trade.",
+                lessons: "Countertrade via jewellery can settle drug debts without FX flows.",
+                redFlags: [16, 20]
+            },
+            {
+                number: "Case 94",
+                title: "Regulatory and Enforcement Fallout from Super-Broker A",
+                summary: "Investigations in Italy into narcotics-related laundering, US freezing and confiscation of $4.3M, multiple Indian customs and export-fraud cases (fake Naproxen exports, pulses during ban) eventually surface scale of A's network.",
+                typologies: ["Enforcement", "Systemic Weakness"],
+                countries: ["Italy", "USA", "India"],
+                commodities: ["Naproxen", "Pulses"],
+                year: 2015,
+                description: "Case shows how weak exchange control, bank over-reliance on documents, permissive hawala frameworks allow one broker to arbitrage export incentives, trade bans, and FX controls simultaneously.",
+                detection: "Multi-country investigations.",
+                outcome: "$4.3M frozen; export fraud cases.",
+                lessons: "Systemic weaknesses enable one broker to exploit multiple regimes.",
+                redFlags: [54, 60]
+            },
+            {
+                number: "Case 95",
+                title: "Company X — Collusive Metals Trade and Bank Losses",
+                summary: "UAE-based metals trader 'Mr Doe' used Companies X, Y, Z in Dubai/Sharjah plus London suppliers S Ltd and F Ltd to run classic over-invoicing and phantom cargo schemes leaving 17+ banks with losses exceeding $360M.",
+                typologies: ["Over-invoicing", "Phantom Shipping", "Trade Finance Fraud"],
+                countries: ["UAE", "UK"],
+                commodities: ["Metals"],
+                year: 2010,
+                description: "S and F issued falsified purchase orders, certificates of origin, bills of lading for high-value metals that were low-grade or non-existent, presented to UK banks, reimbursed at inflated values by Mr Doe's UAE banks based on bogus balance sheets—then kicked part back to Mr Doe's offshore shells until he disappeared.",
+                detection: "Falsified documents; bank losses; disappearance.",
+                outcome: "$360M+ losses.",
+                lessons: "Collusive suppliers and falsified documents can cause massive trade finance losses.",
+                redFlags: [42, 44, 47, 61]
+            },
+            {
+                number: "Case 96",
+                title: "Performance Bond Gaming between Related Parties",
+                summary: "Mr Doe's UK Company A paid $5M advance to Indian exporter Company H (controlled by his father) for aluminium, secured by bank performance bond from Bank H. Company A borrowed $5M from Bank Y and assigned bond to that bank, later repaid Bank Y, reclaimed bond, then tried to call bond itself.",
+                typologies: ["Performance Bond Fraud", "Related Parties"],
+                countries: ["UK", "India"],
+                commodities: ["Aluminium"],
+                year: 2011,
+                description: "Only because Indian customs and tax probes had already uncovered fraud at H was Bank H able to prove fraudulent intent and refuse payment.",
+                detection: "Customs/tax probes revealed underlying fraud.",
+                outcome: "Bond payment refused.",
+                lessons: "Performance bonds between related parties can be weaponised.",
+                redFlags: [10, 44]
+            },
+            {
+                number: "Case 97",
+                title: "TBML Red Flags and Structural Weaknesses",
+                summary: "Article underlines banks 'deal in documents, not goods,' urges use of FATF TBML red flags: commodity descriptions on bills not matching invoices, values far from market rates, commodities inconsistent with profile, shipment sizes misaligned, unnecessary routing, third-party payments, reliance on fronts/shells.",
+                typologies: ["Systemic Weakness", "Red Flags"],
+                countries: ["Global"],
+                commodities: ["Various"],
+                year: 2015,
+                description: "Advocates dual review by experienced trade-finance staff, systematic cross-border trade-data sharing, much tighter cooperation between banks, customs, FIUs, tax, law enforcement to spot anomalies.",
+                detection: "N/A",
+                outcome: "Recommendations.",
+                lessons: "Systemic trade-data sharing and expert review are needed to detect TBML.",
+                redFlags: [41, 42, 29, 30, 16, 1]
+            },
+            {
+                number: "Case 98",
+                title: "False Invoicing of Electronics — Eurovox Case",
+                summary: "Australian Government TBML typology highlights Paul Anthony Miller of Eurovox Pty Ltd, colluding with Seigo Ito of Maruwa Electronic and Chemical to misprice tolling equipment, DVD players, set-top boxes. Systematically over-invoiced imports by misrepresenting prices, siphoning off difference as illicit value.",
+                typologies: ["Over-invoicing", "Trade-Based Money Laundering"],
+                countries: ["Australia", "Japan"],
+                commodities: ["Electronics"],
+                year: 2010,
+                description: "Led to charges including obtaining financial advantage by deception, money laundering, theft, falsifying documents; custodial sentence reduced on appeal.",
+                detection: "Customs investigation; price misrepresentation.",
+                outcome: "Conviction.",
+                lessons: "Over-invoicing electronics can launder value.",
+                redFlags: [42, 61]
+            },
+            {
+                number: "Case 99",
+                title: "Duty-Free Cigarettes and Alcohol Re-Introduced to Domestic Market",
+                summary: "Company directors buy large volumes duty-free cigarettes/alcohol supposed for export, then divert back into Australia's domestic market tax-free. Generate fake export receipts, accept cash-on-delivery, sell online with many bogus orders paid by two Belize-linked credit cards.",
+                typologies: ["Excise Fraud", "Structuring", "Trade-Based Money Laundering"],
+                countries: ["Australia", "Belize"],
+                commodities: ["Cigarettes", "Alcohol"],
+                year: 2012,
+                description: "Structured wire transfers under false names and front accounts—always just under AUD 10,000—to move profits into Belize bank accounts, fusing excise fraud with trade misrepresentation and classic smurfing.",
+                detection: "Fake export receipts; Belize credit cards; structured wires.",
+                outcome: "Excise fraud; smurfing.",
+                lessons: "Duty-free diversion and smurfing launder excise fraud profits.",
+                redFlags: [17, 44]
+            },
+            {
+                number: "Case 100",
+                title: "Suisse Secrets — TBML via Shell-Owned Share Deals",
+                summary: "Suisse Secrets case shows TBML executed through equity in shell companies. Members of Guta family controlled 13 corporate and 3 personal accounts at Credit Suisse; flagship Mriya corporate account held up to CHF 222.9M, repeatedly used to 'buy' shares in fraudulent Cyprus entities ultimately owned by same family.",
+                typologies: ["Shell Companies", "Trade-Based Money Laundering", "Share Fraud"],
+                countries: ["Switzerland", "Cyprus", "BVI", "Latvia"],
+                commodities: ["None"],
+                year: 2010,
+                description: "Funds (e.g., $37.9M inflows followed by $21M outflows to Guta-owned BVI shells) cycled rapidly, with near-identical, weakly documented share-sale contracts, large advance payments, routing mainly to Bank of Cyprus and one Latvian bank.",
+                detection: "Rapid cycling; weak documentation; related-party share deals.",
+                outcome: "CHF 222.9M laundered.",
+                lessons: "Fake share trades in shell companies can launder value like goods.",
+                redFlags: [1, 10, 19, 20]
+            },
+            {
+                number: "Case 101",
+                title: "Mutilated Coins as Laundering and Fraud Vector",
+                summary: "AUSTRAC 2010 report: individual repeatedly enters Australia from China carrying large quantities damaged AUD1 and AUD2 coins, declares over $10K but almost certainly brings more in sub-threshold tranches. Deposits coins across multiple branches, concealing damage so banks credit full face value instead of scrap.",
+                typologies: ["Coin Smuggling", "Structuring", "Casino Laundering"],
+                countries: ["Australia", "China"],
+                commodities: ["Coins"],
+                year: 2010,
+                description: "Rapidly withdraws or briefly transfers funds, occasionally cycles through casino chips; over eight years deposits/withdraws ~AUD 300,000 in reportable cash plus numerous sub-threshold deposits, also sends AUD 47,000 to China via international transfers.",
+                detection: "Multiple branch deposits; coin damage concealment; sub-threshold structuring.",
+                outcome: "AUD 347,000 laundered.",
+                lessons: "Even mutilated coins can be used for fraud and laundering.",
+                redFlags: [17, 22, 28]
+            },
+            {
+                number: "Case 102",
+                title: "The Coffee Shop Hawala Deal",
+                summary: "In Brussels café, broker Nabil receives €480,000 cash from delivery man Amjad—payment for 16kg cocaine sold by trafficker Tito. Nabil counts money, writes 'Tito 16 — received — 480' in notebook, makes secure call. Next day Tito receives payment in UAE dirhams from Nabil's local contact. Physical euros never leave Brussels.",
+                typologies: ["Hawala", "Drug Trafficking", "Trade-Based Money Laundering"],
+                countries: ["Belgium", "UAE"],
+                commodities: ["None"],
+                year: 2015,
+                description: "Nabil has already resold €200,000 of that cash to Philippe (tax fraudster), who will pay later via fake invoices. Nabil gives Amjad €5 note; serial number is password for Philippe to collect his €200,000 cash later. System is hawala: informal, trust-based, no paper trail.",
+                detection: "Physical surveillance; informants; wiretaps.",
+                outcome: "Cash laundered via hawala.",
+                lessons: "Hawala settles drug debts without moving cash internationally.",
+                redFlags: [16, 22]
+            },
+            {
+                number: "Case 103",
+                title: "Dirty Money as Heavy Physical Problem",
+                summary: "A ton of cocaine turns into roughly a ton of cash—about a million €50 notes, a pile 100 meters high. Criminals are logisticians, not just financiers. Hawala solves this: collect cash locally, resell locally (to tax fraudsters), settle debt with phone call so payment appears remotely. Cash never travels.",
+                typologies: ["Hawala", "Bulk Cash"],
+                countries: ["Global"],
+                commodities: ["None"],
+                year: 2015,
+                description: "Hawala's logistical genius makes it attractive and hard to beat.",
+                detection: "Physical surveillance; cash logistics tracking.",
+                outcome: "N/A",
+                lessons: "Hawala eliminates need to move physical cash across borders.",
+                redFlags: [22]
+            },
+            {
+                number: "Case 104",
+                title: "Hawala Broker as Insurer",
+                summary: "Hawala broker's small fee (0-5%) is insurance. Broker personally guarantees money arrives no matter what—seizure, theft, partner default. If broker fails to pay, they face ruin: loss of clients, exile, violence. Fee buys value carrier, local banker, and insurer taking on all risk.",
+                typologies: ["Hawala"],
+                countries: ["Global"],
+                commodities: ["None"],
+                year: 2015,
+                description: "Near 100% success rate for customer. Their 'analog' nature (trust, calls, notebooks) protects from digital surveillance but they are vulnerable to old-fashioned police work: surveillance, informants, infiltration.",
+                detection: "Physical surveillance; informants.",
+                outcome: "N/A",
+                lessons: "Hawala's strength (trust) is also its vulnerability to infiltration.",
+                redFlags: []
+            },
+            {
+                number: "Case 105",
+                title: "White-Collar Crime Fueled by Drug Cash",
+                summary: "Secretary from wealth management firm reveals clients were tax evaders, accounts funded by mysterious cash deposits in Europe, then wired to Dubai accounts. Everything fake: business activity, invoices, services, 'back-to-back loans.' Cash from cocaine and cannabis sales collected on streets; hawala brokers sold that cash to tax evaders.",
+                typologies: ["Hawala", "Tax Evasion", "Wealth Management Abuse"],
+                countries: ["France", "Dubai"],
+                commodities: ["None"],
+                year: 2014,
+                description: "One Parisian hawala broker moved €121M in a single year. Hawala is critical bridge connecting brutal street economy (drug cash) with polished white-collar economy (fraudsters, corrupt officials, tax evaders).",
+                detection: "Leaked documents; investigation.",
+                outcome: "€121M moved.",
+                lessons: "Hawala supplies entire chain from street dealers to shady wealth managers.",
+                redFlags: [16, 22, 44]
+            },
+            {
+                number: "Case 106",
+                title: "Hawaladar as 'Criminal Notary'",
+                summary: "Drug cartels, importers, migrant smugglers share need for trusted third party to guarantee deals. Hawaladar acts as middleman and escrow agent: introduces buyer and seller, holds buyer's cash in escrow, releases payment only after goods (drugs or successful crossing) confirmed delivered. Guarantees neither side cheats.",
+                typologies: ["Hawala", "Organised Crime"],
+                countries: ["Global"],
+                commodities: ["Various"],
+                year: 2015,
+                description: "Hawaladar is not just money mover but core organizer at beginning—marketplace and clearinghouse for organised crime, sees all transactions, can make or break deals, holds disproportionate power.",
+                detection: "Infiltration; surveillance.",
+                outcome: "N/A",
+                lessons: "Hawaladars are central architects of criminal logistics, not just service providers.",
+                redFlags: []
+            },
+            {
+                number: "Case 107",
+                title: "Hezbollah's Hawala-Plus System",
+                summary: "Hezbollah runs global criminal enterprise (drug trafficking) generating hundreds of millions in cash. Instead of keeping money informal, funnels massive cash proceeds into Lebanese banking system via front institutions (Al-Qard al-Hassan) and complicit banks (Jamal Trust Bank, Lebanese Canadian Bank). LCB laundered hundreds of millions/month before US shut it down 2011.",
+                typologies: ["Terrorism Financing", "Hawala", "Bank Complicity"],
+                countries: ["Lebanon", "South America", "Europe", "West Africa"],
+                commodities: ["Various"],
+                year: 2010,
+                description: "Scheme works because Hezbollah controls state institutions (ports, government), uses mafia-style threats (Amin al-Shari threatening bank employees). Laundered money finances weapons, military ops, social services, building shadow state in Lebanon.",
+                detection: "US investigations; Lebanese Canadian Bank shutdown.",
+                outcome: "Billions laundered.",
+                lessons: "Hezbollah uses hybrid hawala-bank system, political control, and threats to launder drug money.",
+                redFlags: [12, 57]
+            },
+            {
+                number: "Case 108",
+                title: "Drug Money as Textile Business Profit (Bangladesh-Dubai-Morocco)",
+                summary: "Container of expensive textiles shipped from Dubai to Morocco. Official paperwork declares €1M, actual value €10M. Moroccan company legally pays €1M via SWIFT; remaining €9M dirty cash handed over secretly in Bangladesh via hawala. In Morocco, textiles sold for €10M, paper profit €9M sent to France as legitimate business earnings.",
+                typologies: ["Under-invoicing", "Hawala", "Trade-Based Money Laundering"],
+                countries: ["Bangladesh", "Dubai", "Morocco", "France"],
+                commodities: ["Textiles"],
+                year: 2015,
+                description: "Hawala in Dhaka receives dirty Taka, contacts Dubai counterpart to make Dirhams available to Dubai company. No cash crosses border. Customs often take fake invoice at face value. Gap in global trade allows scam.",
+                detection: "Customs vs actual value; hawala links.",
+                outcome: "€9M laundered.",
+                lessons: "Fake invoices and hawala turn drug cash into clean business profits via trade.",
+                redFlags: [16, 42, 62]
+            },
+            {
+                number: "Case 109",
+                title: "Japanese Hawala (Used Cars to Myanmar)",
+                summary: "IVTS in Tokyo served Myanmar immigrants; broker Suleman Soe Min arrested for violating Banking Law. System handled ¥2.5B ($20.7M). Min used money to buy used cars in Japan, exported to Yangon, sold by brother for double purchase price. Exchange rate ~50x official rate; operated since 1993.",
+                typologies: ["Hawala", "Trade-Based Money Laundering"],
+                countries: ["Japan", "Myanmar", "Philippines"],
+                commodities: ["Used cars"],
+                year: 1998,
+                description: "More than 40 IVTS operate in Japanese prefectures, remitting ~¥10B/year to Philippines. Some offer door-to-door delivery in Philippines.",
+                detection: "Banking law violation arrest.",
+                outcome: "¥2.5B handled.",
+                lessons: "IVTS use trade (used cars) to move value and offer better rates.",
+                redFlags: [16, 57]
+            },
+            {
+                number: "Case 110",
+                title: "Arms and Charities in Kashmir",
+                summary: "Jammu and Kashmir police discover international network financing militancy using philanthropic organizations and NGOs as fronts (1995-1997) to collect zakat (2.5% annual profits given by Muslims) for Hizb-ul-Mujahedin. Involved Kashmir Medicare Trust, Muslim Welfare Society, Kashmir American Council.",
+                typologies: ["Terrorism Financing", "NGO Fraud", "Trade-Based Money Laundering"],
+                countries: ["India", "USA"],
+                commodities: ["Gold", "Various"],
+                year: 1997,
+                description: "Funds reached destination via gold smuggling, purchase/sale of legal goods sold to wholesale dealers in Srinagar, proceeds to carpet dealer, then several middle-men before reaching commander.",
+                detection: "Police investigation.",
+                outcome: "Network exposed.",
+                lessons: "Charities and gold smuggling can fund terrorism.",
+                redFlags: [1, 16]
+            },
+            {
+                number: "Case 111",
+                title: "Smuggling Migrants to USA (Pakistan, Syria, Afghanistan)",
+                summary: "Three overlapping networks smuggled ~12,000 people into USA over three years (Operation Seek and Keep). Immigrants from India, Pakistan, Syria, Afghanistan taken via Moscow to Cuba, then Bahamas, Ecuador or Mexico into USA. Fees $20,000+ per person paid in USA, sent to India via Canada and UAE (Dubai) through hawala.",
+                typologies: ["Migrant Smuggling", "Hawala"],
+                countries: ["USA", "India", "Pakistan", "Syria", "Afghanistan", "Russia", "Cuba", "Bahamas", "Ecuador", "Mexico", "Canada", "UAE"],
+                commodities: ["None"],
+                year: 1998,
+                description: "Estimated total ~$220M over three years. US hawala broker contacted Indian counterpart who made arrangements; used various hawala techniques to balance books.",
+                detection: "Undercover investigation (Operation Seek and Keep); money laundering statutes.",
+                outcome: "Network dismantled; $220M estimated.",
+                lessons: "Hawala used to settle migrant smuggling fees globally.",
+                redFlags: [16, 57]
+            },
+            {
+                number: "Case 112",
+                title: "Smuggling Migrants to Japan",
+                summary: "Two members of Chinese immigrant-smuggling ring arrested for running IVTS. Chen Xinrong and Jiang Huamei charged with sending over ¥2B ($16.5M) to Fujian Province, China from Japan for 5000 illegal Chinese immigrants over 3.5 years. Charged commissions up to 1%.",
+                typologies: ["Migrant Smuggling", "Hawala"],
+                countries: ["Japan", "China"],
+                commodities: ["None"],
+                year: 1997,
+                description: "Clients deposited money in Chen's bank accounts; Chen withdrew using ATM card, arranged broker in China to dispense money to local recipients. Similar IVTS used by Chinese gangs to receive payments for immigrant smuggling and launder theft-ring proceeds.",
+                detection: "Arrest for running unlicensed money transfer.",
+                outcome: "¥2B sent; ring arrested.",
+                lessons: "IVTS used to repatriate immigrant smuggling proceeds.",
+                redFlags: [16, 57]
             }
         ];
-        
-        // Initialize game
-        function initGame() {
-            const container = document.getElementById('gifts-container');
-            container.innerHTML = '';
-            
-            gifts.forEach(gift => {
-                const giftHtml = `
-                    <div class="gift-item">
-                        <div class="gift-info">
-                            <div class="gift-name">${gift.emoji} ${gift.name}</div>
-                            <div class="gift-market">📍 From: <strong>${gift.country}</strong> | Qty: <strong>${gift.quantity} units</strong></div>
-                            <div class="gift-market">📊 Real Market Price: <strong>$${gift.realMarketPrice.toFixed(2)} per unit</strong></div>
-                            <div class="gift-hint">⚠️ TBML Risk: ${gift.highRiskScenario.substring(0, 60)}...</div>
-                        </div>
-                        <div class="input-group">
-                            <input type="number" 
-                                   id="price-${gift.id}" 
-                                   placeholder="Your $ value/unit"
-                                   step="0.01"
-                                   min="0"
-                                   style="width: 120px;">
-                        </div>
-                    </div>
-                `;
-                container.innerHTML += giftHtml;
+
+        // ======================== STATS ========================
+        function calculateStats() {
+            const total = cases.length;
+            const typologies = new Set();
+            const countries = new Set();
+            const commodities = new Set();
+            cases.forEach(c => {
+                c.typologies.forEach(t => typologies.add(t));
+                c.countries.forEach(ct => countries.add(ct));
+                c.commodities.forEach(cm => commodities.add(cm));
+            });
+            return { total, typologies: typologies.size, countries: countries.size, commodities: commodities.size };
+        }
+
+        const stats = calculateStats();
+
+        document.getElementById('statsGrid').innerHTML = `
+            <div class="stat-card">
+                <div class="stat-label">Total Cases</div>
+                <div class="stat-value">${stats.total}</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">TBML Methods</div>
+                <div class="stat-value">${stats.typologies}</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Jurisdictions</div>
+                <div class="stat-value">${stats.countries}</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Commodities</div>
+                <div class="stat-value">${stats.commodities}</div>
+            </div>
+        `;
+
+        // ======================== FILTERING ========================
+        let currentTypology = 'all';
+        let searchTerm = '';
+
+        function extractUniqueTypologies() {
+            const typSet = new Set();
+            cases.forEach(c => c.typologies.forEach(t => typSet.add(t)));
+            return Array.from(typSet).sort();
+        }
+
+        function renderFilters() {
+            const typologies = extractUniqueTypologies();
+            const filterContainer = document.getElementById('typologyFilters');
+            filterContainer.innerHTML = '<button class="filter-btn active" data-typology="all">All Typologies</button>';
+            typologies.forEach(typ => {
+                const btn = document.createElement('button');
+                btn.className = 'filter-btn';
+                btn.setAttribute('data-typology', typ);
+                btn.textContent = typ;
+                filterContainer.appendChild(btn);
             });
         }
-        
-        // Calculate results
-        function calculateResults() {
-            const resultsDiv = document.getElementById('results');
-            const resultsContent = document.getElementById('results-content');
+
+        function renderCases() {
+            const grid = document.getElementById('casesGrid');
+            const noResults = document.getElementById('noResults');
             
-            let totalDeviationScore = 0;
-            let flaggedItems = 0;
-            let resultsHTML = '';
-            
-            gifts.forEach(gift => {
-                const inputValue = parseFloat(document.getElementById(`price-${gift.id}`).value);
-                
-                if (!inputValue) {
-                    alert('⚠️ Please enter prices for ALL gifts!');
-                    return;
-                }
-                
-                const deviation = Math.abs((inputValue - gift.realMarketPrice) / gift.realMarketPrice) * 100;
-                const totalInvoice = inputValue * gift.quantity;
-                const realMarketTotal = gift.realMarketPrice * gift.quantity;
-                const moneySuspicious = Math.abs(totalInvoice - realMarketTotal);
-                
-                totalDeviationScore += deviation;
-                
-                let riskLevel = "✅ NORMAL";
-                let flagColor = "green";
-                let isFlag = false;
-                
-                if (deviation > 50) {
-                    riskLevel = "🚩 HIGH RISK";
-                    flagColor = "red";
-                    flaggedItems++;
-                    isFlag = true;
-                } else if (deviation > 25) {
-                    riskLevel = "⚠️ MEDIUM RISK";
-                    flagColor = "orange";
-                }
-                
-                resultsHTML += `
-                    <div class="result-card" style="border-left: 5px solid ${flagColor};">
-                        <div class="result-title">${gift.name}</div>
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 10px 0;">
-                            <div>
-                                <div class="stat-label">Your Invoice Price (per unit)</div>
-                                <div class="stat-number" style="color: ${flagColor};">$${inputValue.toFixed(2)}</div>
-                            </div>
-                            <div>
-                                <div class="stat-label">Market Reality (per unit)</div>
-                                <div class="stat-number" style="color: var(--color-green);">$${gift.realMarketPrice.toFixed(2)}</div>
-                            </div>
-                        </div>
-                        <div style="margin: 10px 0; padding: 10px; background: rgba(0,0,0,0.05); border-radius: 5px;">
-                            <strong>Deviation: ${deviation.toFixed(1)}%</strong> | 
-                            <strong style="color: ${flagColor};">${riskLevel}</strong> | 
-                            💰 <strong>${moneySuspicious > 0 ? `$${moneySuspicious.toFixed(2)} unaccounted` : 'No major gap'}</strong>
-                        </div>
-                        ${isFlag ? `<div class="fraud-indicator">
-                            <h4>🚨 RED FLAG DETECTED</h4>
-                            <p><strong>Why This Matters:</strong> ${gift.highRiskScenario}</p>
-                        </div>` : ''}
-                    </div>
-                `;
-            });
-            
-            const avgDeviation = totalDeviationScore / gifts.length;
-            let overallRisk = "✅ PASSED";
-            let overallColor = "green";
-            
-            if (avgDeviation > 40) {
-                overallRisk = "🚨 FAILED - MAJOR RED FLAGS";
-                overallColor = "red";
-            } else if (avgDeviation > 20) {
-                overallRisk = "⚠️ MARGINAL PASS - Suspicious Patterns";
-                overallColor = "orange";
+            let filtered = cases;
+
+            if (currentTypology !== 'all') {
+                filtered = filtered.filter(c => c.typologies.includes(currentTypology));
             }
-            
-            resultsHTML = `
-                <div class="stat-display">
-                    <div class="stat-box">
-                        <div class="stat-label">OVERALL COMPLIANCE SCORE</div>
-                        <div class="stat-number" style="color: ${overallColor};">${(100 - Math.min(avgDeviation, 100)).toFixed(0)}%</div>
-                    </div>
-                    <div class="stat-box">
-                        <div class="stat-label">RED FLAGS RAISED</div>
-                        <div class="stat-number" style="color: var(--color-red);">${flaggedItems}/5</div>
+
+            if (searchTerm) {
+                const term = searchTerm.toLowerCase();
+                filtered = filtered.filter(c => 
+                    c.title.toLowerCase().includes(term) ||
+                    c.summary.toLowerCase().includes(term) ||
+                    c.description.toLowerCase().includes(term) ||
+                    c.typologies.some(t => t.toLowerCase().includes(term)) ||
+                    c.countries.some(ct => ct.toLowerCase().includes(term)) ||
+                    c.commodities.some(cm => cm.toLowerCase().includes(term)) ||
+                    (c.lessons && c.lessons.toLowerCase().includes(term))
+                );
+            }
+
+            if (filtered.length === 0) {
+                grid.style.display = 'none';
+                noResults.style.display = 'block';
+                return;
+            }
+
+            grid.style.display = 'grid';
+            noResults.style.display = 'none';
+
+            grid.innerHTML = filtered.map(c => `
+                <div class="case-card" onclick="openModal('${c.number.replace('Case ', '')}')">
+                    <div class="case-number">${c.number}</div>
+                    <div class="case-title">${c.title}</div>
+                    <div class="case-summary">${c.summary}</div>
+                    <div class="case-tags">
+                        ${c.typologies.slice(0, 3).map(t => `<span class="tag">${t}</span>`).join('')}
+                        ${c.typologies.length > 3 ? `<span class="tag">+${c.typologies.length-3}</span>` : ''}
                     </div>
                 </div>
-                
-                <h3 style="color: ${overallColor}; text-align: center;">${overallRisk}</h3>
-                <p style="text-align: center; color: #666; font-size: 0.95rem;"><strong>Average Pricing Deviation: ${avgDeviation.toFixed(1)}%</strong></p>
-                
-                ${resultsHTML}
-                
-                <div class="fraud-indicator">
-                    <h4>💡 What You Just Learned (Real TBML Tactics)</h4>
-                    <ul>
-                        <li><strong>Under-invoiced exports:</strong> Seller ships $1,000 goods for $50 invoice. Buyer pays full $1,000 elsewhere, pockets laundered cash difference.</li>
-                        <li><strong>Over-invoiced imports:</strong> Buyer invoiced for $1,000 of $100 goods. Sends extra $900 abroad disguised as legitimate payment.</li>
-                        <li><strong>Commodity mismatch:</strong> $0.10 razors invoiced at $35 each (actual case: Venezuela-USA trade).</li>
-                        <li><strong>Multiple invoicing:</strong> Same goods invoiced 3+ times to justify repeat payments.</li>
-                        <li><strong>Vague descriptions:</strong> "Electronics" instead of specific products = impossible to verify market rates.</li>
-                    </ul>
+            `).join('');
+        }
+
+        // ======================== MODAL ========================
+        function openModal(id) {
+            const caseData = cases.find(c => c.number === `Case ${id}`);
+            if (!caseData) return;
+
+            document.getElementById('modalTitle').innerHTML = `${caseData.number}: <span>${caseData.title}</span>`;
+
+            const flagList = caseData.redFlags && caseData.redFlags.length 
+                ? caseData.redFlags.map(f => `<span class="flag-badge">Flag #${f}</span>`).join(' ') 
+                : '<span class="flag-badge">None listed</span>';
+
+            document.getElementById('modalBody').innerHTML = `
+                <div class="modal-section">
+                    <h3>Summary</h3>
+                    <p>${caseData.summary}</p>
+                </div>
+                <div class="modal-section">
+                    <h3>TBML Methods</h3>
+                    <ul>${caseData.typologies.map(t => `<li>${t}</li>`).join('')}</ul>
+                </div>
+                <div class="modal-section">
+                    <h3>Regions Involved</h3>
+                    <ul>${caseData.countries.map(c => `<li>${c}</li>`).join('')}</ul>
+                </div>
+                <div class="modal-section">
+                    <h3>Commodities</h3>
+                    <p>${caseData.commodities.join(', ') || 'Various'}</p>
+                </div>
+                <div class="modal-section">
+                    <h3>Full Description</h3>
+                    <p>${caseData.description}</p>
+                </div>
+                <div class="modal-section">
+                    <h3>Detection Method</h3>
+                    <p>${caseData.detection || 'Not specified'}</p>
+                </div>
+                <div class="modal-section">
+                    <h3>Outcome</h3>
+                    <p>${caseData.outcome || 'Not specified'}</p>
+                </div>
+                <div class="modal-section">
+                    <h3>Lessons Learned</h3>
+                    <p>${caseData.lessons || 'Not specified'}</p>
+                </div>
+                <div class="modal-section">
+                    <h3>Related Red Flags</h3>
+                    <div>${flagList}</div>
                 </div>
             `;
-            
-            resultsContent.innerHTML = resultsHTML;
-            resultsDiv.classList.add('show');
+            document.getElementById('caseModal').classList.add('active');
         }
-        
-        // Reset game
-        function resetGame() {
-            document.getElementById('results').classList.remove('show');
-            initGame();
+
+        function closeModal() {
+            document.getElementById('caseModal').classList.remove('active');
         }
-        
-        // Create snowflakes
-        function createSnowflakes() {
-            const snowflakesDiv = document.getElementById('snowflakes');
-            const snowflakeCount = 15;
-            
-            for (let i = 0; i < snowflakeCount; i++) {
-                const snowflake = document.createElement('div');
-                snowflake.className = 'snowflake';
-                snowflake.textContent = '❄️';
-                snowflake.style.left = Math.random() * 100 + '%';
-                snowflake.style.animationDuration = (Math.random() * 10 + 10) + 's';
-                snowflake.style.opacity = Math.random() * 0.5 + 0.3;
-                snowflakesDiv.appendChild(snowflake);
+
+        // ======================== EVENT LISTENERS ========================
+        document.addEventListener('click', (e) => {
+            if (e.target.matches('[data-typology]')) {
+                document.querySelectorAll('[data-typology]').forEach(btn => btn.classList.remove('active'));
+                e.target.classList.add('active');
+                currentTypology = e.target.getAttribute('data-typology');
+                renderCases();
             }
-        }
-        
-        // Initialize on load
-        window.addEventListener('DOMContentLoaded', () => {
-            createSnowflakes();
-            initGame();
         });
+
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            searchTerm = e.target.value;
+            renderCases();
+        });
+
+        document.getElementById('clearFilters').addEventListener('click', () => {
+            document.querySelectorAll('[data-typology]').forEach(btn => btn.classList.remove('active'));
+            document.querySelector('[data-typology="all"]').classList.add('active');
+            currentTypology = 'all';
+            document.getElementById('searchInput').value = '';
+            searchTerm = '';
+            renderCases();
+        });
+
+        document.getElementById('caseModal').addEventListener('click', (e) => {
+            if (e.target.id === 'caseModal') closeModal();
+        });
+
+        // ======================== INIT ========================
+        renderFilters();
+        renderCases();
     </script>
 </body>
 </html>
