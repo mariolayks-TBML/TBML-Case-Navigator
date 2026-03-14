@@ -356,19 +356,6 @@
             margin-bottom: 6px;
         }
 
-        .flag-badge {
-            display: inline-block;
-            background: #2a2a2a;
-            color: #dc2626;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 12px;
-            font-weight: 600;
-            margin-right: 6px;
-            margin-bottom: 6px;
-            border: 1px solid #dc2626;
-        }
-
         @media (max-width: 768px) {
             .cases-grid {
                 grid-template-columns: 1fr;
@@ -394,7 +381,8 @@
     <div class="container">
         <div class="header">
             <div class="header-content">
-                <img src="https://www.dropbox.com/scl/fi/xm8s4e76s9k0yap5xuqbu/M-1.png?rlkey=k2c5tclompg1k2q815zmi52w0&st=9jf2263g&dl=0" alt="Logo" class="logo" onerror="this.src='https://via.placeholder.com/80/1a1a1a/dc2626?text=TBML'">
+                <!-- Replace this src with your actual logo URL when working -->
+                <img src="https://www.dropbox.com/scl/fi/xm8s4e76s9k0yap5xuqbu/M-1.png?rlkey=k2c5tclompg1k2q815zmi52w0&st=9jf2263g&dl=0" alt="Logo" class="logo">
                 <div>
                     <h1>TBML <span>Case Navigator</span></h1>
                     <p>Interactive database of 112 trade-based money laundering cases</p>
@@ -403,17 +391,13 @@
             </div>
         </div>
 
-        <div class="stats-grid" id="statsGrid">
-            <!-- filled by JS -->
-        </div>
+        <div class="stats-grid" id="statsGrid"></div>
 
         <div class="controls">
             <div class="search-box">
                 <input type="text" id="searchInput" placeholder="Search cases by keyword...">
             </div>
-            <div class="filter-group" id="typologyFilters">
-                <!-- filled by JS -->
-            </div>
+            <div class="filter-group" id="typologyFilters"></div>
             <button class="clear-filters" id="clearFilters">Clear Filters</button>
         </div>
 
@@ -446,7 +430,8 @@
                 detection: "Rolling-window aggregation (e.g., 14 days) per counterparty; counting frequency and total value of flows to expose patterns invisible in single transactions.",
                 outcome: "Methodology for improved monitoring.",
                 lessons: "Short-period aggregation reveals structured payments, circular flows, and counterparties inconsistent with customer profile.",
-                redFlags: [16, 17, 19, 20, 27]
+                redFlags: ["Trade patterns inconsistent with economic profiles", "Frequent use of structuring techniques", "Rapid movement of funds without business rationale"],
+                techniques: ["Aggregating transactions over rolling windows", "Counting frequency and total value of flows", "Identifying patterns invisible in single transactions"]
             },
             {
                 number: "Case 2",
@@ -460,7 +445,8 @@
                 detection: "Analyse counterparty relationships: if Party X is both customer and supplier with bidirectional cash, investigate. Trace loan refund paths.",
                 outcome: "Exposes laundering pipes.",
                 lessons: "Counterparties who are simultaneously customer and supplier, or loan accounts with odd refunds, indicate laundering.",
-                redFlags: [16, 20, 22]
+                redFlags: ["Bidirectional cash flows between same parties", "Loan refunds from and back to related accounts", "Cash purchases of high-value assets through third parties"],
+                techniques: ["Using front men to purchase assets", "Creating circular loan repayments", "Exploiting cash-intensive sectors"]
             },
             {
                 number: "Case 3",
@@ -474,7 +460,8 @@
                 detection: "Intelligence linking shipments; financial investigation tracing funds.",
                 outcome: "Seizure of second shipment but original profits hidden.",
                 lessons: "Profits reinvested in same illicit activity become harder to trace.",
-                redFlags: []
+                redFlags: ["Reinvestment of proceeds into same illicit activity", "Difficulty tracing funds to original source"],
+                techniques: ["Using drug profits to purchase further drug shipments", "Obscuring origin through reinvestment"]
             },
             {
                 number: "Case 4",
@@ -488,7 +475,8 @@
                 detection: "Behavioural red flag: cash payments from unrelated third parties, inconsistent with normal client behaviour (bank transfers).",
                 outcome: "Investigation likely; case illustrates method.",
                 lessons: "Cash payments from unrelated parties, even for real goods, may conceal drug money conversion.",
-                redFlags: [16, 22]
+                redFlags: ["Cash payments from unrelated third parties", "Inconsistent payment methods compared to normal client behaviour", "Lack of commercial rationale for cash usage"],
+                techniques: ["Using legitimate exporters as payment conduits", "Exploiting excuses like 'poor banking systems'", "Converting drug cash through real trade"]
             },
             {
                 number: "Case 5",
@@ -502,7 +490,8 @@
                 detection: "Unusual payment pattern: trader not in normal business line paying large sums to unrelated supplier; cash funding.",
                 outcome: "Unsuspecting trader used as conduit.",
                 lessons: "Lazy 'only invoice-manipulation is TBML' thinking is dangerous—behavioural camouflage works.",
-                redFlags: [16, 40]
+                redFlags: ["Trader paying large sums to unrelated suppliers", "Cash funding for transactions", "Building trust to gain account access"],
+                techniques: ["Cultivating relationships with legitimate traders", "Using their accounts for wire transfers", "No invoice manipulation, purely behavioural"]
             },
             {
                 number: "Case 6",
@@ -516,7 +505,8 @@
                 detection: "Suspicious activity reports; pattern of cash deposits followed by wire transfers for goods; cross-jurisdictional analysis.",
                 outcome: "€2.5M laundered over three years.",
                 lessons: "Collusive import-export businesses can launder large sums through normal-priced goods.",
-                redFlags: [16, 31, 33]
+                redFlags: ["Pattern of cash deposits followed by wire transfers", "Trade with collusive suppliers", "Goods sold in destination country for local currency"],
+                techniques: ["Using collusive import-export businesses", "Purchasing goods at normal prices", "Selling in local market to generate clean funds"]
             },
             {
                 number: "Case 7",
@@ -530,7 +520,8 @@
                 detection: "Customs value reconciliation; price benchmarking against market norms.",
                 outcome: "€5M laundered.",
                 lessons: "Under-invoicing of high-value goods moves value invisibly.",
-                redFlags: [42, 62]
+                redFlags: ["Export prices far below market value", "Related-party transactions", "Goods sold in destination market at full price"],
+                techniques: ["Under-invoicing high-value goods", "Selling to related parties", "Realising full value in destination country"]
             },
             {
                 number: "Case 8",
@@ -544,7 +535,8 @@
                 detection: "Customs data comparison between export and import declarations.",
                 outcome: "$500,000 moved off-books.",
                 lessons: "Under-invoicing allows value transfer without physical cash movement.",
-                redFlags: [42, 62]
+                redFlags: ["Export value significantly lower than import declaration", "Collusion between exporter and importer", "Off-books value transfer"],
+                techniques: ["Under-invoicing exports", "Altering customs paperwork", "Moving value without physical cash"]
             },
             {
                 number: "Case 9",
@@ -558,7 +550,8 @@
                 detection: "Need data from non-TTU countries; difficult.",
                 outcome: "Mispricing hidden.",
                 lessons: "Routing through non-TTU countries defeats cross-border trade data comparison.",
-                redFlags: [54, 56]
+                redFlags: ["Trade routed through non-TTU countries", "Mismatch between export and import values", "Inability to compare trade data across jurisdictions"],
+                techniques: ["Routing goods through countries outside trade data exchange", "Exploiting data gaps", "Concealing mispricing"]
             },
             {
                 number: "Case 10",
@@ -572,7 +565,8 @@
                 detection: "Customs valuation review; beneficial ownership tracing revealing common control.",
                 outcome: "€4M VAT fraud.",
                 lessons: "Over-invoicing can serve VAT fraud; related parties may hide behind shell structures.",
-                redFlags: [1, 42, 61]
+                redFlags: ["Over-invoiced exports", "Shell company involvement", "Common ownership of exporter and importer"],
+                techniques: ["Over-invoicing to claim fraudulent VAT refunds", "Using shell companies as intermediaries", "Related-party structures to hide control"]
             },
             {
                 number: "Case 11",
@@ -586,7 +580,8 @@
                 detection: "Passport lost/stolen check; tracing ultimate goods destination.",
                 outcome: "€4.3M moved; investigation.",
                 lessons: "Shells controlled with forged IDs are pure TBML conduits.",
-                redFlags: [1, 44, 59]
+                redFlags: ["Shell company control via forged ID", "Payment from unrelated jurisdiction", "Goods ultimately delivered to different party"],
+                techniques: ["Using forged identity documents to control accounts", "Shell companies as conduits", "Diverting goods to ultimate buyer"]
             },
             {
                 number: "Case 12",
@@ -600,7 +595,8 @@
                 detection: "Customs verification; no goods ever entered.",
                 outcome: "£14.3M moved for no goods.",
                 lessons: "Phantom imports use fake documentation to justify wire transfers.",
-                redFlags: [44, 47]
+                redFlags: ["No customs record of goods", "Large wire transfers with no underlying trade", "Shell company involvement"],
+                techniques: ["Creating fake import documentation", "Using shell companies to receive and forward funds", "No physical goods movement"]
             },
             {
                 number: "Case 13",
@@ -614,7 +610,8 @@
                 detection: "Customs verification; no import records.",
                 outcome: "$1M moved fraudulently.",
                 lessons: "Loan repayment and import claims with no underlying goods are money-moving devices.",
-                redFlags: [44, 47]
+                redFlags: ["No customs record", "Bogus loan repayment claims", "Shell companies involved"],
+                techniques: ["Fake import claims", "Bogus loan repayments", "Moving money through shell companies"]
             },
             {
                 number: "Case 14",
@@ -628,7 +625,8 @@
                 detection: "Customs verification; goods never moved.",
                 outcome: "$756.4M laundered.",
                 lessons: "Phantom trades can move billions across borders.",
-                redFlags: [44, 47]
+                redFlags: ["No goods movement", "Conversion and wiring of funds to multiple EU countries", "Use of offshore companies"],
+                techniques: ["Phantom trade documentation", "Currency conversion and layering", "Wiring to multiple jurisdictions"]
             },
             {
                 number: "Case 15",
@@ -642,7 +640,8 @@
                 detection: "Pattern analysis: same formation agents, round-number transfers, unusual correspondent routing.",
                 outcome: "$500M processed; later enforcement.",
                 lessons: "Correspondent banking can be abused by shell networks if due diligence weak.",
-                redFlags: [1, 2, 10, 21]
+                redFlags: ["Multiple shells with same formation agents", "Round-number transfers", "Unusual correspondent routing"],
+                techniques: ["Using correspondent accounts for shell payments", "Chunking transfers to avoid thresholds", "Paying for imports into FSU"]
             },
             {
                 number: "Case 16",
@@ -656,7 +655,8 @@
                 detection: "Transaction pattern analysis: many small wires, mixing of flows, shells as payers.",
                 outcome: "$45M laundered.",
                 lessons: "Shells can act as 'universal payers' commingling legitimate and illicit funds.",
-                redFlags: [1, 10, 21]
+                redFlags: ["Shell acting as payment hub", "Mixing of legitimate and illicit funds", "Many small wires"],
+                techniques: ["Splitting large payments into smaller wires", "Paying genuine exporters", "Commingling funds"]
             },
             {
                 number: "Case 17",
@@ -670,7 +670,8 @@
                 detection: "Same-day in-out flows; round-tripping of funds; no economic rationale.",
                 outcome: "$160M churned; tax fraud.",
                 lessons: "Same-day in-out wires with no business purpose indicate layering and fake trade.",
-                redFlags: [1, 10, 19, 20]
+                redFlags: ["Same-day in-out wires", "Round-tripping of funds", "No economic rationale"],
+                techniques: ["Creating fake trade contracts", "Round-tripping funds", "Churning through shells"]
             },
             {
                 number: "Case 18",
@@ -684,7 +685,8 @@
                 detection: "Huge mismatch between inbound funds and payments to real suppliers.",
                 outcome: "$328M laundered.",
                 lessons: "Massive inbound flows to a company with minimal genuine trade支出 is a red flag.",
-                redFlags: [1, 10, 21]
+                redFlags: ["Mismatch between inbound and outbound flows", "Minimal genuine trade", "Many shell senders"],
+                techniques: ["Using thin trade cover", "Collecting and redistributing funds", "Minimal real business activity"]
             },
             {
                 number: "Case 19",
@@ -698,7 +700,8 @@
                 detection: "Concentration of shell accounts; unusual correspondent activity; later investigations.",
                 outcome: "$1.2B and $1.7B laundered.",
                 lessons: "Banks hosting hundreds of shells on correspondent accounts are platforms for TBML.",
-                redFlags: [1, 10, 57]
+                redFlags: ["Hundreds of shell accounts on correspondent accounts", "Unusual correspondent activity", "Ties to tax fraud and corruption"],
+                techniques: ["Using banks as platforms for shell transactions", "Concentrating illicit flows through few accounts"]
             },
             {
                 number: "Case 20",
@@ -712,7 +715,8 @@
                 detection: "Financial reporting messy; lack of charity registration; cult-like structures; related-party transactions.",
                 outcome: "Systemic laundering; investigations.",
                 lessons: "Charity and second-hand trade sectors vulnerable to TBML due to cash intensity and complex supply chains.",
-                redFlags: [1, 10, 31]
+                redFlags: ["Messy financial reporting", "Lack of charity registration", "Cult-like structures", "Related-party transactions"],
+                techniques: ["Using sham charities", "Transfer pricing through related entities", "Blurring donations and profit"]
             },
             {
                 number: "Case 21",
@@ -726,7 +730,8 @@
                 detection: "Provenance verification; tracking gold origin; intelligence.",
                 outcome: "Gold laundered; investigations.",
                 lessons: "Fabricated provenance turns illicit gold into 'legitimate' product.",
-                redFlags: [44, 54]
+                redFlags: ["Fabricated provenance documents", "Gold from high-risk sources", "Re-export to US as legitimate"],
+                techniques: ["Buying gold abroad with drug cash", "Fabricating local provenance", "Re-exporting as artisanal product"]
             },
             {
                 number: "Case 22",
@@ -740,7 +745,8 @@
                 detection: "Travel patterns; customs checks; invoice verification.",
                 outcome: "Gold smuggled; investigations.",
                 lessons: "Travel agencies can provide fake invoices to cover gold movements.",
-                redFlags: [44]
+                redFlags: ["Repeated travel by same individuals", "False invoices from travel agency", "Gold movements under guise of trade"],
+                techniques: ["Using mules to carry gold", "Fake export invoices", "Exploiting travel agency cover"]
             },
             {
                 number: "Case 23",
@@ -754,7 +760,8 @@
                 detection: "Ernst & Young report; trade data analysis; risk flags ignored.",
                 outcome: "Governance failures; reputational damage.",
                 lessons: "Refiners accepting gold from high-risk sources without due diligence enable TBML.",
-                redFlags: [44, 54]
+                redFlags: ["Gold from high-risk jurisdictions", "Anonymous 'call customers'", "Reported exports exceeding production"],
+                techniques: ["Misclassifying gold as scrap", "Coating to dodge export rules", "Routing through countries with weak controls"]
             },
             {
                 number: "Case 24",
@@ -768,7 +775,8 @@
                 detection: "Journalistic investigation; leaked data.",
                 outcome: "Reputational damage; fines.",
                 lessons: "Private banks can be conduits for illicit wealth if AML is weak.",
-                redFlags: [12, 44]
+                redFlags: ["Clients from high-risk sectors", "Staff marketing tax evasion", "Mis-labelling client occupations"],
+                techniques: ["Using private banking for illicit wealth", "Offshore companies", "Exploiting weak AML"]
             },
             {
                 number: "Case 25",
@@ -782,7 +790,8 @@
                 detection: "Investigation into tender process; financial tracing.",
                 outcome: "Corruption and laundering.",
                 lessons: "PEPs exploiting inside knowledge can launder through corporate structures.",
-                redFlags: [12]
+                redFlags: ["PEP involvement", "Insider information used", "Profits washed through associates"],
+                techniques: ["Colluding with PEPs", "Using associates to hold interests", "Kickbacks"]
             },
             {
                 number: "Case 26",
@@ -796,7 +805,8 @@
                 detection: "Shift from cash to trade patterns.",
                 outcome: "Evolving laundering methods.",
                 lessons: "As cash controls tighten, criminals move to TBML.",
-                redFlags: [22, 26]
+                redFlags: ["Shift from cash to trade-based methods", "Use of trade to move value"],
+                techniques: ["Adapting to tighter cash controls", "Using trade instead of bulk cash"]
             },
             {
                 number: "Case 27",
@@ -810,7 +820,8 @@
                 detection: "Civil litigation; tracing difficult.",
                 outcome: "Funds obscured.",
                 lessons: "Layering through multiple accounts and companies can defeat civil recovery.",
-                redFlags: [19, 20]
+                redFlags: ["Funds moved through multiple accounts", "Mixing with other business flows", "Complex offshore structures"],
+                techniques: ["Layering through overseas companies", "Mixing with legitimate funds", "Creating complex trails"]
             },
             {
                 number: "Case 28",
@@ -824,7 +835,8 @@
                 detection: "Trade data analysis; related-party scrutiny.",
                 outcome: "Capital flight.",
                 lessons: "Related-party trade allows profit shifting and FX evasion.",
-                redFlags: [10, 31]
+                redFlags: ["Related-party trade", "Inflated export prices", "FX evasion"],
+                techniques: ["Using dual citizenship to control both sides", "Over-invoicing exports", "Shifting profits offshore"]
             },
             {
                 number: "Case 29",
@@ -838,7 +850,8 @@
                 detection: "ATM usage patterns; travel document verification.",
                 outcome: "FX leakage.",
                 lessons: "ATM cards and fake travel exploit FX controls, draining official reserves.",
-                redFlags: [17, 29]
+                redFlags: ["ATM cards used abroad for large withdrawals", "Fake travel documents", "Exploiting FX rate gaps"],
+                techniques: ["Using ATM cards to access foreign cash", "Fake travel to access official FX", "Arbitraging exchange rates"]
             },
             {
                 number: "Case 30",
@@ -852,7 +865,8 @@
                 detection: "Parallel banking; no formal FX records.",
                 outcome: "Capital flight.",
                 lessons: "Hawala and crypto create parallel settlement systems invisible to regulators.",
-                redFlags: [57]
+                redFlags: ["No formal FX records", "Use of hawala networks", "Crypto investments from informal funds"],
+                techniques: ["Hawala for cross-border settlement", "Crypto for value storage", "Netting between parties"]
             },
             {
                 number: "Case 31",
@@ -866,7 +880,8 @@
                 detection: "Trade data exceeding country's exports; matching in-out transfers; no shipping docs.",
                 outcome: "Sanctions evasion.",
                 lessons: "Carousel trades with exact matching values indicate value transfer, not genuine trade.",
-                redFlags: [1, 20, 34]
+                redFlags: ["Matching in-out transfers", "Trade volume exceeds country's exports", "No shipping documents"],
+                techniques: ["Cycling payments through accounts", "Generating fixed 'profit'", "Wiring to sanctioned beneficiaries"]
             },
             {
                 number: "Case 32",
@@ -880,7 +895,8 @@
                 detection: "Price benchmarking against Platts; scrutiny of Letters of Indemnity.",
                 outcome: "Value extraction.",
                 lessons: "Consistent above-market premiums and use of indemnities instead of full docs are TBML red flags.",
-                redFlags: [23, 42, 61]
+                redFlags: ["Above-market premiums", "Use of Letters of Indemnity instead of full docs", "Incomplete paperwork"],
+                techniques: ["Inflating premiums", "Using indemnities to mask counterparties", "Extracting value"]
             },
             {
                 number: "Case 33",
@@ -894,7 +910,8 @@
                 detection: "Certificate serial anomalies; refusal to provide originals; chamber verification.",
                 outcome: "Scheme exposed.",
                 lessons: "Fake certificates of origin and resistance to document sampling indicate fraud.",
-                redFlags: [41, 43, 44, 54]
+                redFlags: ["Certificate serial anomalies", "Refusal to provide original docs", "Funds routed to sanctioned jurisdiction"],
+                techniques: ["Using forged certificates", "Resisting document checks", "Routing through shell suppliers"]
             },
             {
                 number: "Case 34",
@@ -908,7 +925,8 @@
                 detection: "AIS gap analysis; satellite imagery.",
                 outcome: "Obscured cargo movements.",
                 lessons: "AIS gaps should trigger enhanced due diligence; vessels going dark may be hiding illicit activity.",
-                redFlags: [59]
+                redFlags: ["AIS gaps", "Vessels going dark on key legs", "Mismatch between docs and voyage"],
+                techniques: ["Turning off AIS", "Loading/discharging without tracking", "Supporting forged docs"]
             },
             {
                 number: "Case 35",
@@ -922,7 +940,8 @@
                 detection: "Customs vs wire transfer reconciliation.",
                 outcome: "$17.6M laundered.",
                 lessons: "Massive mismatch between declared export value and import payments indicates under-invoicing.",
-                redFlags: [42, 62]
+                redFlags: ["Mismatch between export value and import payments", "Colluding companies", "Large wire transfers vs low declared value"],
+                techniques: ["Under-invoicing scrap gold", "Receiving excess wire transfers", "Moving illicit value"]
             },
             {
                 number: "Case 36",
@@ -936,7 +955,8 @@
                 detection: "Customs investigation; wire transfer monitoring.",
                 outcome: "$26.7M duty evasion; $6.9M laundering attempt.",
                 lessons: "Duty evasion and money laundering often co-exist in misinvoicing schemes.",
-                redFlags: [42, 62]
+                redFlags: ["False invoices", "Duty evasion", "Attempted laundering of proceeds"],
+                techniques: ["Under-invoicing to evade duties", "Using trade to launder", "Wiring funds to promote fraud"]
             },
             {
                 number: "Case 37",
@@ -950,7 +970,8 @@
                 detection: "Circular transaction patterns; no economic rationale.",
                 outcome: "Value transfer.",
                 lessons: "Carousel trades with no net change in ownership indicate value movement.",
-                redFlags: [20, 34]
+                redFlags: ["Circular transaction patterns", "No net change in ownership", "Rapid movement of funds"],
+                techniques: ["Repeated circular trades", "Creating illusion of commerce", "VAT manipulation"]
             },
             {
                 number: "Case 38",
@@ -964,7 +985,8 @@
                 detection: "Corporate registry analysis; nominee director patterns.",
                 outcome: "Facilitation of TBML.",
                 lessons: "Shells and fronts are essential TBML infrastructure.",
-                redFlags: [1, 5, 10]
+                redFlags: ["Shell companies", "Nominee directors", "No real business operations"],
+                techniques: ["Using shells for bank accounts", "Nominee structures", "Shielding true controllers"]
             },
             {
                 number: "Case 39",
@@ -978,7 +1000,8 @@
                 detection: "Interception pattern; multiple cash deposits.",
                 outcome: "Laundering via trade payment.",
                 lessons: "Criminals can hijack legitimate trade payments to launder funds.",
-                redFlags: [16, 22]
+                redFlags: ["Interception of legitimate payments", "Multiple cash deposits", "Use of hawala"],
+                techniques: ["Intercepting trade payments", "Substituting own cash", "Using hawala for settlement"]
             },
             {
                 number: "Case 40",
@@ -992,7 +1015,8 @@
                 detection: "Premium vs Platts benchmark; use of indemnities.",
                 outcome: "Value smuggling.",
                 lessons: "Sustained above-market premiums and indemnity reliance are red flags.",
-                redFlags: [23, 42, 61]
+                redFlags: ["Above-market premiums", "Reliance on indemnities", "Incomplete documentation"],
+                techniques: ["Inflating premiums", "Using indemnities", "Smuggling value"]
             },
             {
                 number: "Case 41",
@@ -1006,7 +1030,8 @@
                 detection: "Certificate anomalies; refusal to provide originals; chamber verification.",
                 outcome: "Scheme exposed.",
                 lessons: "Fake certificates and resistance to document checks indicate fraud.",
-                redFlags: [41, 43, 44, 54]
+                redFlags: ["Certificate anomalies", "Refusal to provide originals", "Payments to sanctioned jurisdiction"],
+                techniques: ["Using forged certificates", "Resisting document checks", "Routing through shells"]
             },
             {
                 number: "Case 42",
@@ -1020,7 +1045,8 @@
                 detection: "AIS gap analysis; satellite tracking.",
                 outcome: "Obscured voyages.",
                 lessons: "AIS gaps should trigger enhanced due diligence.",
-                redFlags: [59]
+                redFlags: ["AIS gaps", "Going dark during key operations", "Mismatch with voyage history"],
+                techniques: ["Turning off AIS", "Concealing cargo operations", "Supporting forged docs"]
             },
             {
                 number: "Case 43",
@@ -1034,7 +1060,8 @@
                 detection: "Pattern of cash deposits followed by trade payments.",
                 outcome: "Laundering system.",
                 lessons: "BMPE is a foundational TBML model.",
-                redFlags: [16, 22]
+                redFlags: ["Cash deposits followed by trade payments", "Use of brokers", "Goods sold for local currency"],
+                techniques: ["Selling dollars at discount", "Using trade payments", "Repaying broker with local sales"]
             },
             {
                 number: "Case 44",
@@ -1048,7 +1075,8 @@
                 detection: "Benchmarking against arm's length prices; related-party scrutiny.",
                 outcome: "Tax base erosion.",
                 lessons: "Transfer pricing abuses are systematic TBML via trade.",
-                redFlags: [31, 42]
+                redFlags: ["Prices deviate from arm's length", "Related-party transactions", "IP royalty abuse"],
+                techniques: ["Export mispricing", "Import mispricing", "IP royalty shifting", "Re-invoicing"]
             },
             {
                 number: "Case 45",
@@ -1062,7 +1090,8 @@
                 detection: "Cash serial number tracking.",
                 outcome: "BND 1.37M laundered.",
                 lessons: "Cash serial numbers can link theft to asset purchases.",
-                redFlags: [22]
+                redFlags: ["Cash withdrawals from court funds", "Purchases abroad", "Serial number tracking"],
+                techniques: ["Embezzling cash", "Moving funds abroad", "Buying assets"]
             },
             {
                 number: "Case 46",
@@ -1076,7 +1105,8 @@
                 detection: "Timing of account opening; beneficial ownership tracing.",
                 outcome: "Corruption proceeds laundered.",
                 lessons: "Offshore accounts opened just before large payments are red flags for bribes.",
-                redFlags: [1, 12]
+                redFlags: ["Offshore account opened before payment", "Split across multiple jurisdictions", "Family involvement"],
+                techniques: ["Receiving bribes offshore", "Splitting through family shells", "Investing in assets"]
             },
             {
                 number: "Case 47",
@@ -1090,7 +1120,8 @@
                 detection: "Cash withdrawals; lack of project evidence.",
                 outcome: "Public funds stolen.",
                 lessons: "Fake NGOs and ghost projects launder government funds through cash and asset purchases.",
-                redFlags: [1, 22]
+                redFlags: ["Fake NGOs", "Ghost projects", "Cash withdrawals", "Asset purchases"],
+                techniques: ["Using fake foundations", "Withdrawing cash", "Recycling to relatives", "Buying assets"]
             },
             {
                 number: "Case 48",
@@ -1104,7 +1135,8 @@
                 detection: "Funds tracing through shells; sham subcontracts.",
                 outcome: "Public funds laundered.",
                 lessons: "Loan-back schemes recycle stolen funds as 'clean' loans.",
-                redFlags: [1, 10, 20]
+                redFlags: ["Sham subcontracts", "Funds moved through shells", "Loan-back reintroduction"],
+                techniques: ["Siphoning via sham subcontracts", "Moving through shells", "Reintroducing as loans"]
             },
             {
                 number: "Case 49",
@@ -1118,7 +1150,8 @@
                 detection: "Tax authority non-reporting; breach of restrictions.",
                 outcome: "Billions laundered.",
                 lessons: "Crypto Ponzi schemes use shell entities to launder proceeds.",
-                redFlags: [1, 22]
+                redFlags: ["Ponzi scheme", "Crypto investment front", "Non-reporting to tax authorities", "Luxury purchases"],
+                techniques: ["Fronting as crypto tutorials", "Using accounts for luxury goods", "Breaching restrictions"]
             },
             {
                 number: "Case 50",
@@ -1132,7 +1165,8 @@
                 detection: "Many small accounts; consolidation to crypto exchanges.",
                 outcome: "Crypto laundering.",
                 lessons: "Multiple small accounts and crypto exchanges layer drug money.",
-                redFlags: [17, 19, 27]
+                redFlags: ["Many small accounts", "Consolidation to crypto exchanges", "Use of intermediary crypto providers"],
+                techniques: ["Using multiple accounts", "Consolidating funds", "Converting to crypto"]
             },
             {
                 number: "Case 51",
@@ -1146,7 +1180,8 @@
                 detection: "BEC pattern; mule accounts; subsequent purchases.",
                 outcome: "Fraud proceeds laundered.",
                 lessons: "BEC fraudsters use mule accounts and luxury purchases to launder.",
-                redFlags: [16, 22]
+                redFlags: ["BEC pattern", "Mule accounts", "Luxury goods purchases"],
+                techniques: ["Email compromise", "Using mule accounts", "Buying luxury goods"]
             },
             {
                 number: "Case 52",
@@ -1160,7 +1195,8 @@
                 detection: "Rapid unexplained growth; fake contracts; related entities.",
                 outcome: "Drug logistics and laundering.",
                 lessons: "Fuel transport companies can be fronts for drug trafficking and money laundering.",
-                redFlags: [1, 5, 10]
+                redFlags: ["Rapid unexplained growth", "Fake contracts", "Multiple related entities"],
+                techniques: ["Using fuel transport as cover", "Fake contracts with state companies", "Multiple bank accounts"]
             },
             {
                 number: "Case 53",
@@ -1174,7 +1210,8 @@
                 detection: "Fake accounts; forged IDs; multiple entities.",
                 outcome: "Global drug distribution.",
                 lessons: "Online pharmacies use complex entity structures to launder proceeds.",
-                redFlags: [1, 44]
+                redFlags: ["Fake accounts", "Forged IDs", "Multiple entities", "MSB abuse"],
+                techniques: ["Using software/web companies as front", "Fake accounts and IDs", "Multiple entities for remittances"]
             },
             {
                 number: "Case 54",
@@ -1188,7 +1225,8 @@
                 detection: "Prison phone monitoring; investigation.",
                 outcome: "Continued drug trade from prison.",
                 lessons: "Incarcerated traffickers can still run operations using phones and remittance services.",
-                redFlags: [16]
+                redFlags: ["Prison phone use", "Remittance services for drug trade", "Family involvement"],
+                techniques: ["Using smuggled phones", "Wife as facilitator", "Remittance services for payments"]
             },
             {
                 number: "Case 55",
@@ -1202,7 +1240,8 @@
                 detection: "Structured deposits; related-party loans.",
                 outcome: "Drug profits laundered.",
                 lessons: "Real estate and loan-backs launder drug money into legitimate businesses.",
-                redFlags: [17, 20]
+                redFlags: ["Structured deposits", "Related-party loans", "Foreign companies lending back"],
+                techniques: ["Structuring deposits", "Using corrupted officials", "Loan-back from foreign entities"]
             },
             {
                 number: "Case 56",
@@ -1216,7 +1255,8 @@
                 detection: "Trade vs FX mismatches; related-party links.",
                 outcome: "Hezbollah and cartel funding.",
                 lessons: "Trade mismatches and common auditors may hide terrorism financing.",
-                redFlags: [1, 10, 12]
+                redFlags: ["Trade vs FX mismatches", "Related-party links", "Common auditors"],
+                techniques: ["Using family nominees", "Trust administrators", "Channeling funds to terrorist groups"]
             },
             {
                 number: "Case 57",
@@ -1230,7 +1270,8 @@
                 detection: "Circular funding; personal enrichment.",
                 outcome: "Public assets looted.",
                 lessons: "Circular transactions involving public assets can mask looting.",
-                redFlags: [16, 22]
+                redFlags: ["Circular funding", "Personal enrichment", "Luxury goods purchases"],
+                techniques: ["Circular transactions", "Using public asset sales", "Personal account diversion"]
             },
             {
                 number: "Case 58",
@@ -1244,7 +1285,8 @@
                 detection: "Complex structures; inter-generational trusts; FX broker ownership.",
                 outcome: "$1.6B fraud laundered.",
                 lessons: "Multi-generational offshore structures can hide fraud proceeds indefinitely.",
-                redFlags: [1, 10, 19]
+                redFlags: ["Complex offshore structures", "Inter-generational trusts", "FX broker ownership"],
+                techniques: ["Using trusts and foundations", "Circulating funds offshore", "Changing beneficiaries"]
             },
             {
                 number: "Case 59",
@@ -1258,7 +1300,8 @@
                 detection: "Passport verification; addresses non-existent; immigration bribery.",
                 outcome: "Funds moved globally.",
                 lessons: "Shells with fake director identities are pure laundering vehicles.",
-                redFlags: [1, 5, 44]
+                redFlags: ["Fake passports", "Non-existent addresses", "Immigration bribery"],
+                techniques: ["Using false documents", "Bribing officials", "Immediate conversion and wiring"]
             },
             {
                 number: "Case 60",
@@ -1272,7 +1315,8 @@
                 detection: "Cash logistics; unusual payments; smuggling investigation.",
                 outcome: "$36M laundered.",
                 lessons: "Freight forwarders can be central hubs for both smuggling and laundering.",
-                redFlags: [16, 22, 40]
+                redFlags: ["Cash in garbage bags", "Cheque-backed withdrawals", "Mislabelled wires", "Payments to unrelated entities"],
+                techniques: ["Using complicit freight forwarders", "Cash logistics", "Mixing with legitimate payments"]
             },
             {
                 number: "Case 61",
@@ -1286,21 +1330,35 @@
                 detection: "Counterfeit cards; record manipulation.",
                 outcome: "Theft and laundering.",
                 lessons: "Casinos can be used to layer funds through fake gambling transactions.",
-                redFlags: [22, 28]
+                redFlags: ["Counterfeit cards", "Record manipulation", "Fake gambling losses"],
+                techniques: ["Creating counterfeit cards", "Manipulating casino records", "Sending funds abroad"]
             },
             {
                 number: "Case 62",
-                title: "Crypto Fraud and Money Laundering via Smurfs",
-                summary: "Mr X sends multiple overseas transfers inconsistent with his profile, funded by cyber-fraud across ten countries and 118 victims. Fourteen beneficiaries in Bahrain each take 2% cut and forward funds on (often to India) via banks, MSBs or cash redeposits.",
-                typologies: ["Cyber Fraud", "Structuring", "MSB Abuse"],
-                countries: ["Bahrain", "India", "Various"],
-                commodities: ["None"],
-                year: 2015,
-                description: "Splitting flows into small, sub-threshold amounts to avoid detection and convert fraud proceeds into apparently legitimate transfers.",
-                detection: "Multiple small transfers; inconsistent profile.",
-                outcome: "Fraud proceeds laundered.",
-                lessons: "Smurfing via MSBs and banks layers cyber-fraud proceeds.",
-                redFlags: [17, 19]
+                title: "Hezbollah Terrorism Financing Network",
+                summary: "International network using trade in used cars and consumer goods to finance Hezbollah operations. Complex scheme involved over-invoicing, under-invoicing, and phantom shipments across multiple continents.",
+                typologies: ["Over-Invoicing", "Under-Invoicing", "Phantom Shipping", "Terrorism Financing"],
+                countries: ["Lebanon", "West Africa", "South America", "Europe"],
+                commodities: ["Used cars", "Consumer goods"],
+                year: 2010,
+                description: "Network used trade in used cars and consumer goods to generate illicit value, creating false invoices to justify fund transfers, exploiting weak controls in free trade zones, layering transactions through multiple countries, and using legitimate businesses as front companies.",
+                detection: "Intelligence linking trade patterns to Hezbollah operatives; trade data analysis showing inconsistencies.",
+                outcome: "Ongoing investigations; some assets frozen.",
+                lessons: "Terrorist groups exploit trade finance to move value across borders.",
+                redFlags: [
+                    "Trade patterns inconsistent with economic profiles",
+                    "Frequent use of free trade zones",
+                    "Complex ownership structures obscuring beneficial owners",
+                    "Trade with high-risk jurisdictions for terrorism financing",
+                    "Goods transiting through multiple unnecessary jurisdictions"
+                ],
+                techniques: [
+                    "Using used car trade to generate illicit value",
+                    "Creating false invoices to justify fund transfers",
+                    "Exploiting weak controls in free trade zones",
+                    "Layering transactions through multiple countries",
+                    "Using legitimate businesses as front companies"
+                ]
             },
             {
                 number: "Case 63",
@@ -1314,7 +1372,8 @@
                 detection: "Customs misdeclarations; parcel swapping; unregistered MSB activity.",
                 outcome: "Underground banking.",
                 lessons: "Diamond trade's portability and value make it ideal for TBML and underground banking.",
-                redFlags: [41, 44, 61, 62]
+                redFlags: ["Customs misdeclarations", "Parcel swapping", "Unregistered MSB activity"],
+                techniques: ["Mixing cash and trade flows", "Swapping stones", "Fake declarations"]
             },
             {
                 number: "Case 64",
@@ -1328,7 +1387,8 @@
                 detection: "Circular shipments; price manipulation; loan default.",
                 outcome: "$3.1M loan fraud.",
                 lessons: "Carousel trade can support loan fraud and layering.",
-                redFlags: [20, 34, 42]
+                redFlags: ["Circular shipments", "Price manipulation", "Loan default", "ATM transfers between entities"],
+                techniques: ["Repeated circular shipments", "Inflating trade figures for loans", "ATM layering"]
             },
             {
                 number: "Case 65",
@@ -1342,7 +1402,8 @@
                 detection: "Sector expertise; baseline normal flows.",
                 outcome: "Improved monitoring.",
                 lessons: "Even legitimate sectors can be vulnerable; understanding normal trade is key.",
-                redFlags: [29, 31, 42]
+                redFlags: ["Complex cross-border outsourcing", "High-value small consignments", "Valuable IP"],
+                techniques: ["Misclassification", "Mispricing", "Fictitious exports"]
             },
             {
                 number: "Case 66",
@@ -1356,7 +1417,8 @@
                 detection: "Multiple small cash deposits; crypto ATM usage.",
                 outcome: "Cash converted to crypto.",
                 lessons: "Crypto ATMs and smurfing turn cash into harder-to-trace virtual assets.",
-                redFlags: [17, 22, 28]
+                redFlags: ["Multiple small cash deposits", "Crypto ATM usage", "Layering through accounts"],
+                techniques: ["Smurfing deposits", "Using crypto ATMs", "Converting to virtual assets"]
             },
             {
                 number: "Case 67",
@@ -1370,7 +1432,8 @@
                 detection: "Forged documents; bus concealment; cannabis discovery.",
                 outcome: "Poly-criminal operation.",
                 lessons: "Wildlife trafficking can be part of broader criminal portfolios.",
-                redFlags: [44]
+                redFlags: ["Forged documents", "Concealment in buses", "Cannabis cultivation"],
+                techniques: ["Forged export docs", "Concealing birds", "Online scams"]
             },
             {
                 number: "Case 68",
@@ -1384,7 +1447,8 @@
                 detection: "Ponzi pattern; multi-jurisdiction accounts.",
                 outcome: "€6M+ fraud.",
                 lessons: "Fake investment platforms use trade-sounding commodities to lure victims.",
-                redFlags: [1, 16]
+                redFlags: ["Ponzi pattern", "Multi-jurisdiction accounts", "Trade-sounding commodities"],
+                techniques: ["Fake investment platforms", "Paying early interest", "Funneling through EU accounts"]
             },
             {
                 number: "Case 69",
@@ -1398,7 +1462,8 @@
                 detection: "Police raid.",
                 outcome: "Factory shut down.",
                 lessons: "Counterfeit production generates massive illicit profits needing laundering.",
-                redFlags: []
+                redFlags: ["Underground factory", "Forced labour", "Counterfeit production"],
+                techniques: ["Underground production", "Forced labour", "Counterfeit sales"]
             },
             {
                 number: "Case 70",
@@ -1412,7 +1477,8 @@
                 detection: "Customs checks; shell company patterns.",
                 outcome: "VAT evasion; counterfeit distribution.",
                 lessons: "VAT fraud and counterfeiting often co-occur with TBML.",
-                redFlags: [1, 42]
+                redFlags: ["Underdeclared values", "Goods disappearing in transit", "Shell companies", "Counterfeit items"],
+                techniques: ["Deferring VAT", "Underdeclaring values", "Using shell companies"]
             },
             {
                 number: "Case 71",
@@ -1426,7 +1492,8 @@
                 detection: "Tender analysis; related-party leasing; OLAF investigation.",
                 outcome: "€5.2M fraud.",
                 lessons: "Circular leasing and related-party transactions inflate costs to divert EU funds.",
-                redFlags: [10, 31]
+                redFlags: ["Fake/inflated invoices", "Manipulated tenders", "Circular leasing", "Related-party transactions"],
+                techniques: ["Fake project paperwork", "Circular leasing chains", "Inflating costs"]
             },
             {
                 number: "Case 72",
@@ -1440,7 +1507,8 @@
                 detection: "Cross-border asset tracking; fake VAT chains.",
                 outcome: "Assets seized.",
                 lessons: "Luxury goods and vehicles are both laundering tools and assets to seize.",
-                redFlags: [1, 10, 22]
+                redFlags: ["Fake VAT chains", "Cross-border asset movements", "OCG-controlled import-export"],
+                techniques: ["Using luxury goods as cover", "Fake VAT documentation", "International trade chains"]
             },
             {
                 number: "Case 73",
@@ -1454,7 +1522,8 @@
                 detection: "Cash-to-trade pattern; invoice payment instructions.",
                 outcome: "€400M laundered.",
                 lessons: "Everyday food exports can be used for underground banking.",
-                redFlags: [16, 31]
+                redFlags: ["Cash-to-trade pattern", "Invoice payment instructions to launderer accounts", "Food exports as cover"],
+                techniques: ["Using food exports", "Directing payments to launderer accounts", "Underground banking settlement"]
             },
             {
                 number: "Case 74",
@@ -1468,7 +1537,8 @@
                 detection: "Funds tracing; customs vs payment reconciliation.",
                 outcome: "AUD 500M traced.",
                 lessons: "Under-invoicing of electronics moves value offshore.",
-                redFlags: [42, 62]
+                redFlags: ["Undervalued exports", "Funds layered through Asian banks", "Mismatch between customs and payments"],
+                techniques: ["Under-invoicing electronics", "Layering through Asian banks", "Exporting undervalued goods"]
             },
             {
                 number: "Case 75",
@@ -1482,7 +1552,8 @@
                 detection: "Short-lived companies; invoicing criminal groups; Asian wire patterns.",
                 outcome: "Cash converted to trade.",
                 lessons: "Short-lived service companies can absorb cash and convert to trade payments.",
-                redFlags: [1, 16, 22]
+                redFlags: ["Short-lived companies", "Invoicing criminal groups", "Asian wire patterns"],
+                techniques: ["Setting up short-lived firms", "Invoicing for bogus services", "Wiring to Asian wholesalers"]
             },
             {
                 number: "Case 76",
@@ -1496,7 +1567,8 @@
                 detection: "Third-party payments; fake invoices.",
                 outcome: "Tens of millions suspected.",
                 lessons: "Exporters paid by unrelated shells with fake invoices indicate TBML.",
-                redFlags: [1, 16, 44]
+                redFlags: ["Third-party payments from shells", "Fake invoices", "Unrelated payers"],
+                techniques: ["Using shell accounts to pay exporters", "Fake invoices for different goods", "Converting illicit funds to trade revenue"]
             },
             {
                 number: "Case 77",
@@ -1510,7 +1582,8 @@
                 detection: "Intelligence linking trade to terrorist operatives.",
                 outcome: "Funds moved.",
                 lessons: "Trade can be used to settle terrorist obligations without direct financial flows.",
-                redFlags: [16]
+                redFlags: ["Trade used for terrorist settlement", "No direct financial link", "Local cash payment to operatives"],
+                techniques: ["Using trade to move value", "Settling obligations via goods", "Local cash payments"]
             },
             {
                 number: "Case 78",
@@ -1524,7 +1597,8 @@
                 detection: "Intelligence; settlement pattern analysis.",
                 outcome: "Terror finance.",
                 lessons: "Hawala networks settling trade can also settle terror obligations.",
-                redFlags: [16, 57]
+                redFlags: ["Trade settlement networks used for terror", "Injection of funds into hawala", "Local handoff to terrorists"],
+                techniques: ["Piggybacking on trade settlement", "Using hawala networks", "Diverting funds locally"]
             },
             {
                 number: "Case 79",
@@ -1538,7 +1612,8 @@
                 detection: "Payment default pattern; related-party collusion.",
                 outcome: "Omega left with loss.",
                 lessons: "Merchanting trade can be used for LC arbitrage fraud.",
-                redFlags: [20, 24]
+                redFlags: ["Payment default after clean cycles", "Related-party collusion", "LC discounting before payment"],
+                techniques: ["Inserting as middleman", "Colluding with buyer and seller", "Discounting LCs early"]
             },
             {
                 number: "Case 80",
@@ -1552,7 +1627,8 @@
                 detection: "Circular funds flow; inflated prices; worthless goods.",
                 outcome: "Fraud on bank and factor.",
                 lessons: "Circular trade with inflated invoices abuses trade finance and factoring.",
-                redFlags: [20, 42, 61]
+                redFlags: ["Worthless goods", "Inflated prices", "Circular funds flow", "Factoring abuse"],
+                techniques: ["Using near-worthless goods", "Inflating invoices", "Circular funding", "Discounting receivables"]
             },
             {
                 number: "Case 81",
@@ -1566,7 +1642,8 @@
                 detection: "Intelligence; pattern of US car purchases and West Africa shipments.",
                 outcome: "$200M/month laundered.",
                 lessons: "Banks can be central to BMPE networks using trade in cars and consumer goods.",
-                redFlags: [1, 16, 57]
+                redFlags: ["Bank central to BMPE", "US car purchases for West Africa", "Asian consumer goods for Latin America"],
+                techniques: ["Using bank accounts for BMPE", "Car trade to West Africa", "Consumer goods to Latin America"]
             },
             {
                 number: "Case 82",
@@ -1580,7 +1657,8 @@
                 detection: "Ponzi investigation; forged diamond invoices; hawala links.",
                 outcome: "Export incentives fraud.",
                 lessons: "Hawala can round-trip Ponzi proceeds as fake export earnings to claim incentives.",
-                redFlags: [1, 16, 44, 61]
+                redFlags: ["Ponzi scheme", "Hawala outbound", "Fake diamond exports", "Export incentive claims"],
+                techniques: ["Raising cash via Ponzi", "Hawala to offshore", "Fake export invoices", "Claiming incentives"]
             },
             {
                 number: "Case 83",
@@ -1594,7 +1672,8 @@
                 detection: "Circular flows; fake invoices; multiple bank exposure.",
                 outcome: "Banks left with bad loans.",
                 lessons: "Trade loans against fake invoices can be used for bust-out fraud.",
-                redFlags: [1, 20, 44]
+                redFlags: ["Fake invoices", "Circular flows", "Multiple bank exposure", "Bust-out pattern"],
+                techniques: ["Using shell companies", "Fake supplier invoices", "Rerouting loan proceeds", "Defaulting"]
             },
             {
                 number: "Case 84",
@@ -1608,7 +1687,8 @@
                 detection: "Structured cash deposits; trade pattern with Colombia.",
                 outcome: "Drug cash laundered.",
                 lessons: "Toy trade can be BMPE vehicle for Colombian cartels.",
-                redFlags: [17, 22, 16]
+                redFlags: ["Structured cash deposits", "Office cash drops", "Imports from China", "Exports to Colombia"],
+                techniques: ["Accepting drug cash", "Importing toys", "Re-exporting to Colombia", "Local sales repay traffickers"]
             },
             {
                 number: "Case 85",
@@ -1622,7 +1702,8 @@
                 detection: "LC amounts vs real value; banned commodity movement; countertrade patterns.",
                 outcome: "Systematic TBML.",
                 lessons: "Super-brokers exploit LCs, export incentives, and countertrade to launder drug money.",
-                redFlags: [1, 42, 61]
+                redFlags: ["Overpriced LCs", "Drug cash top-up", "Banned commodity movement", "Countertrade patterns"],
+                techniques: ["Inflating LC values", "Using drug cash for差额", "Forging contracts for banned goods", "Countertrade with jewellery"]
             },
             {
                 number: "Case 86",
@@ -1636,7 +1717,8 @@
                 detection: "Physical inspection; website facade; rounded payments; implausible trade.",
                 outcome: "$671M laundered.",
                 lessons: "Façade companies with no real operations can move billions through major banks.",
-                redFlags: [1, 8, 21]
+                redFlags: ["Façade company", "Stolen photos on website", "Sparse office", "Rounded payments", "Implausible trade"],
+                techniques: ["Marketing as substantial", "Using major banks", "Irregular payments", "Fake trade documentation"]
             },
             {
                 number: "Case 87",
@@ -1650,7 +1732,8 @@
                 detection: "Mirror trades scandal; nominee director profile mismatch.",
                 outcome: "$34M laundered.",
                 lessons: "Nominee directors with modest profiles controlling large flows are red flags.",
-                redFlags: [1, 5, 20]
+                redFlags: ["Mirror trades", "Stock manipulation links", "Nominee director mismatch", "Shell fronting"],
+                techniques: ["Using mirror trades", "Stock-manipulation rings", "Nominee directors", "Inflated claims"]
             },
             {
                 number: "Case 88",
@@ -1664,7 +1747,8 @@
                 detection: "Repeated large cash declarations at airport.",
                 outcome: "$13.4M cash received.",
                 lessons: "Free trade zones can be endpoints for bulk cash smuggling used to buy exports.",
-                redFlags: [14, 22, 55]
+                redFlags: ["Repeated large cash declarations", "Cash from drug source countries", "FTZ as endpoint", "Professional facilitators"],
+                techniques: ["Bulk cash couriers", "Declaring at airport", "Using FTZ to pay for exports"]
             },
             {
                 number: "Case 89",
@@ -1678,7 +1762,8 @@
                 detection: "Intelligence linking Hezbollah; trade patterns; cash acceptance.",
                 outcome: "$15M/month laundered.",
                 lessons: "Colon Free Zone and Miami electronics are nodes in Hezbollah BMPE.",
-                redFlags: [14, 16, 55]
+                redFlags: ["Hezbollah links", "Drug cash into business accounts", "CFZ and Miami electronics", "Poor customs integration"],
+                techniques: ["Funneling drug cash", "Buying goods in CFZ/Miami", "Shipping to Colombia", "Resale proceeds to traffickers"]
             },
             {
                 number: "Case 90",
@@ -1692,7 +1777,8 @@
                 detection: "Customs investigation; forged docs; diplomat ruse.",
                 outcome: "$950K seizure; convictions.",
                 lessons: "Bonded warehouses and FTZs can be used to divert excisable goods into domestic market.",
-                redFlags: [14, 44, 55]
+                redFlags: ["Double invoicing", "Forged customs docs", "Counterfeit stamps", "Diplomat customers", "Real estate investment"],
+                techniques: ["Using bonded warehouses", "Re-routing shipments", "Smuggling into domestic market", "Laundering to real estate"]
             },
             {
                 number: "Case 91",
@@ -1706,7 +1792,8 @@
                 detection: "Enforcement Directorate investigation.",
                 outcome: "$1.5B/year laundered.",
                 lessons: "Super-brokers use global shell networks to launder narcotics proceeds.",
-                redFlags: [1, 10, 16]
+                redFlags: ["Global shell network", "Blending multiple crime types", "Family control across jurisdictions"],
+                techniques: ["Using banks and MSBs", "Cash couriers", "Hawala", "Shell companies worldwide"]
             },
             {
                 number: "Case 92",
@@ -1720,7 +1807,8 @@
                 detection: "LC vs real value; incentive claims; banned commodity movement.",
                 outcome: "Incentive fraud; sanctions evasion.",
                 lessons: "Over-invoicing plus export incentives and hawala is powerful TBML combo.",
-                redFlags: [42, 61]
+                redFlags: ["Overpriced LCs", "Drug cash top-up", "Export incentive claims", "Banned commodity movement"],
+                techniques: ["Inflating LC values", "Using drug cash差额", "Claiming incentives", "Forging contracts"]
             },
             {
                 number: "Case 93",
@@ -1734,7 +1822,8 @@
                 detection: "Open-account transfers; cash commission payments.",
                 outcome: "Drug settlements via jewellery trade.",
                 lessons: "Countertrade via jewellery can settle drug debts without FX flows.",
-                redFlags: [16, 20]
+                redFlags: ["Open-account transfers", "Cash commission payments", "Countertrade with drug source country"],
+                techniques: ["Exporting jewellery", "Open-account payments", "Cash commissions", "Hawala settlement"]
             },
             {
                 number: "Case 94",
@@ -1748,7 +1837,8 @@
                 detection: "Multi-country investigations.",
                 outcome: "$4.3M frozen; export fraud cases.",
                 lessons: "Systemic weaknesses enable one broker to exploit multiple regimes.",
-                redFlags: [54, 60]
+                redFlags: ["Weak exchange controls", "Bank over-reliance on documents", "Permissive hawala", "Multi-country arbitrage"],
+                techniques: ["Exploiting systemic weaknesses", "Arbitraging regimes", "Using multiple fraud types"]
             },
             {
                 number: "Case 95",
@@ -1762,7 +1852,8 @@
                 detection: "Falsified documents; bank losses; disappearance.",
                 outcome: "$360M+ losses.",
                 lessons: "Collusive suppliers and falsified documents can cause massive trade finance losses.",
-                redFlags: [42, 44, 47, 61]
+                redFlags: ["Falsified purchase orders", "Fake certificates", "Inflated values", "Bogus balance sheets", "Disappearance"],
+                techniques: ["Over-invoicing", "Phantom cargoes", "Falsified documents", "Kickbacks to shells"]
             },
             {
                 number: "Case 96",
@@ -1776,7 +1867,8 @@
                 detection: "Customs/tax probes revealed underlying fraud.",
                 outcome: "Bond payment refused.",
                 lessons: "Performance bonds between related parties can be weaponised.",
-                redFlags: [10, 44]
+                redFlags: ["Related-party transaction", "Advance payment", "Bond recalled and called", "Underlying fraud"],
+                techniques: ["Using related parties", "Advance payment", "Bond gaming", "Attempting to call bond"]
             },
             {
                 number: "Case 97",
@@ -1790,7 +1882,8 @@
                 detection: "N/A",
                 outcome: "Recommendations.",
                 lessons: "Systemic trade-data sharing and expert review are needed to detect TBML.",
-                redFlags: [41, 42, 29, 30, 16, 1]
+                redFlags: ["Docs not matching goods", "Values off-market", "Inconsistent commodities", "Unnecessary routing", "Third-party payments", "Fronts/shells"],
+                techniques: ["Dealing in documents not goods", "Need for data sharing", "Expert review"]
             },
             {
                 number: "Case 98",
@@ -1804,7 +1897,8 @@
                 detection: "Customs investigation; price misrepresentation.",
                 outcome: "Conviction.",
                 lessons: "Over-invoicing electronics can launder value.",
-                redFlags: [42, 61]
+                redFlags: ["Price misrepresentation", "Over-invoicing", "Collusion"],
+                techniques: ["Over-invoicing imports", "Siphoning差额", "Falsifying documents"]
             },
             {
                 number: "Case 99",
@@ -1818,7 +1912,8 @@
                 detection: "Fake export receipts; Belize credit cards; structured wires.",
                 outcome: "Excise fraud; smurfing.",
                 lessons: "Duty-free diversion and smurfing launder excise fraud profits.",
-                redFlags: [17, 44]
+                redFlags: ["Fake export receipts", "Belize credit cards", "Structured wires", "False names"],
+                techniques: ["Duty-free diversion", "Cash-on-delivery", "Online sales with bogus orders", "Smurfing to Belize"]
             },
             {
                 number: "Case 100",
@@ -1832,7 +1927,8 @@
                 detection: "Rapid cycling; weak documentation; related-party share deals.",
                 outcome: "CHF 222.9M laundered.",
                 lessons: "Fake share trades in shell companies can launder value like goods.",
-                redFlags: [1, 10, 19, 20]
+                redFlags: ["Rapid cycling of funds", "Weak documentation", "Related-party share deals", "Multiple shell accounts"],
+                techniques: ["Using shell companies", "Fake share trades", "Cycling funds", "Advance payments"]
             },
             {
                 number: "Case 101",
@@ -1846,7 +1942,8 @@
                 detection: "Multiple branch deposits; coin damage concealment; sub-threshold structuring.",
                 outcome: "AUD 347,000 laundered.",
                 lessons: "Even mutilated coins can be used for fraud and laundering.",
-                redFlags: [17, 22, 28]
+                redFlags: ["Mutilated coins", "Multiple branch deposits", "Sub-threshold structuring", "Casino chip cycling"],
+                techniques: ["Importing damaged coins", "Depositing at face value", "Withdrawing/transferring", "Casino cycling"]
             },
             {
                 number: "Case 102",
@@ -1860,7 +1957,8 @@
                 detection: "Physical surveillance; informants; wiretaps.",
                 outcome: "Cash laundered via hawala.",
                 lessons: "Hawala settles drug debts without moving cash internationally.",
-                redFlags: [16, 22]
+                redFlags: ["Cash collection", "Hawala settlement", "Reselling cash", "Password token"],
+                techniques: ["Using hawala brokers", "Reselling cash locally", "Settling via phone call", "Token for collection"]
             },
             {
                 number: "Case 103",
@@ -1874,7 +1972,8 @@
                 detection: "Physical surveillance; cash logistics tracking.",
                 outcome: "N/A",
                 lessons: "Hawala eliminates need to move physical cash across borders.",
-                redFlags: [22]
+                redFlags: ["Bulk cash problem", "Hawala solution", "Local cash resale", "Remote settlement"],
+                techniques: ["Collecting cash locally", "Reselling to tax fraudsters", "Settling via phone"]
             },
             {
                 number: "Case 104",
@@ -1888,7 +1987,8 @@
                 detection: "Physical surveillance; informants.",
                 outcome: "N/A",
                 lessons: "Hawala's strength (trust) is also its vulnerability to infiltration.",
-                redFlags: []
+                redFlags: ["Broker as insurer", "Trust-based", "Vulnerable to infiltration"],
+                techniques: ["Guaranteeing delivery", "Taking risk", "Analog operations"]
             },
             {
                 number: "Case 105",
@@ -1902,7 +2002,8 @@
                 detection: "Leaked documents; investigation.",
                 outcome: "€121M moved.",
                 lessons: "Hawala supplies entire chain from street dealers to shady wealth managers.",
-                redFlags: [16, 22, 44]
+                redFlags: ["Cash-funded accounts", "Fake business activity", "Hawala bridge", "Wealth management abuse"],
+                techniques: ["Using hawala to supply cash", "Fake invoices/loans", "Wiring to Dubai"]
             },
             {
                 number: "Case 106",
@@ -1916,7 +2017,8 @@
                 detection: "Infiltration; surveillance.",
                 outcome: "N/A",
                 lessons: "Hawaladars are central architects of criminal logistics, not just service providers.",
-                redFlags: []
+                redFlags: ["Hawaladar as guarantor", "Escrow agent", "Marketplace for crime"],
+                techniques: ["Introducing parties", "Holding cash in escrow", "Releasing on confirmation"]
             },
             {
                 number: "Case 107",
@@ -1930,7 +2032,8 @@
                 detection: "US investigations; Lebanese Canadian Bank shutdown.",
                 outcome: "Billions laundered.",
                 lessons: "Hezbollah uses hybrid hawala-bank system, political control, and threats to launder drug money.",
-                redFlags: [12, 57]
+                redFlags: ["Hybrid hawala-bank", "Front institutions", "Complicit banks", "Political control", "Mafia threats"],
+                techniques: ["Funnelling cash to banks", "Using front charities", "Controlling institutions", "Threatening staff"]
             },
             {
                 number: "Case 108",
@@ -1944,7 +2047,8 @@
                 detection: "Customs vs actual value; hawala links.",
                 outcome: "€9M laundered.",
                 lessons: "Fake invoices and hawala turn drug cash into clean business profits via trade.",
-                redFlags: [16, 42, 62]
+                redFlags: ["Under-invoicing", "Hawala settlement", "Cash never crosses border", "Customs taking invoice at face value"],
+                techniques: ["Under-invoicing textiles", "Using hawala for差额", "Selling at full value", "Repatriating as profit"]
             },
             {
                 number: "Case 109",
@@ -1958,7 +2062,8 @@
                 detection: "Banking law violation arrest.",
                 outcome: "¥2.5B handled.",
                 lessons: "IVTS use trade (used cars) to move value and offer better rates.",
-                redFlags: [16, 57]
+                redFlags: ["IVTS", "Used car trade", "Better exchange rates", "Door-to-door delivery"],
+                techniques: ["Collecting yen", "Buying used cars", "Exporting and selling", "Paying recipients"]
             },
             {
                 number: "Case 110",
@@ -1972,7 +2077,8 @@
                 detection: "Police investigation.",
                 outcome: "Network exposed.",
                 lessons: "Charities and gold smuggling can fund terrorism.",
-                redFlags: [1, 16]
+                redFlags: ["NGO fronts", "Zakat diversion", "Gold smuggling", "Multiple middle-men"],
+                techniques: ["Using charities", "Collecting zakat", "Smuggling gold", "Trading goods", "Layering through middle-men"]
             },
             {
                 number: "Case 111",
@@ -1986,7 +2092,8 @@
                 detection: "Undercover investigation (Operation Seek and Keep); money laundering statutes.",
                 outcome: "Network dismantled; $220M estimated.",
                 lessons: "Hawala used to settle migrant smuggling fees globally.",
-                redFlags: [16, 57]
+                redFlags: ["Migrant smuggling", "Hawala settlement", "Multi-country routes", "High fees"],
+                techniques: ["Collecting fees in USA", "Using hawala", "Arranging travel", "Settling in source countries"]
             },
             {
                 number: "Case 112",
@@ -2000,7 +2107,8 @@
                 detection: "Arrest for running unlicensed money transfer.",
                 outcome: "¥2B sent; ring arrested.",
                 lessons: "IVTS used to repatriate immigrant smuggling proceeds.",
-                redFlags: [16, 57]
+                redFlags: ["IVTS", "Immigrant smuggling proceeds", "ATM withdrawals", "Broker in China"],
+                techniques: ["Depositing in bank accounts", "ATM withdrawals", "Broker disbursement", "Commission fees"]
             }
         ];
 
@@ -2114,13 +2222,9 @@
 
             document.getElementById('modalTitle').innerHTML = `${caseData.number}: <span>${caseData.title}</span>`;
 
-            const flagList = caseData.redFlags && caseData.redFlags.length 
-                ? caseData.redFlags.map(f => `<span class="flag-badge">Flag #${f}</span>`).join(' ') 
-                : '<span class="flag-badge">None listed</span>';
-
             document.getElementById('modalBody').innerHTML = `
                 <div class="modal-section">
-                    <h3>Summary</h3>
+                    <h3>Case Summary</h3>
                     <p>${caseData.summary}</p>
                 </div>
                 <div class="modal-section">
@@ -2132,28 +2236,12 @@
                     <ul>${caseData.countries.map(c => `<li>${c}</li>`).join('')}</ul>
                 </div>
                 <div class="modal-section">
-                    <h3>Commodities</h3>
-                    <p>${caseData.commodities.join(', ') || 'Various'}</p>
+                    <h3>Red Flags & Detection Indicators</h3>
+                    <ul>${caseData.redFlags.map(f => `<li>${f}</li>`).join('')}</ul>
                 </div>
                 <div class="modal-section">
-                    <h3>Full Description</h3>
-                    <p>${caseData.description}</p>
-                </div>
-                <div class="modal-section">
-                    <h3>Detection Method</h3>
-                    <p>${caseData.detection || 'Not specified'}</p>
-                </div>
-                <div class="modal-section">
-                    <h3>Outcome</h3>
-                    <p>${caseData.outcome || 'Not specified'}</p>
-                </div>
-                <div class="modal-section">
-                    <h3>Lessons Learned</h3>
-                    <p>${caseData.lessons || 'Not specified'}</p>
-                </div>
-                <div class="modal-section">
-                    <h3>Related Red Flags</h3>
-                    <div>${flagList}</div>
+                    <h3>Laundering Techniques</h3>
+                    <ul>${caseData.techniques.map(t => `<li>${t}</li>`).join('')}</ul>
                 </div>
             `;
             document.getElementById('caseModal').classList.add('active');
